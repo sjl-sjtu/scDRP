@@ -1,0 +1,68 @@
+scDRP package
+=============
+
+Submodules
+----------
+
+scDRP.data module
+-----------------
+
+.. automodule:: scDRP.data
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:
+
+scDRP.loss module
+-----------------
+
+.. automodule:: scDRP.loss
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:
+
+scDRP.model module
+------------------
+
+.. automodule:: scDRP.model
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:
+
+scDRP.module module
+-------------------
+
+.. automodule:: scDRP.module
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:
+
+scDRP.train module
+------------------
+
+.. automodule:: scDRP.train
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:
+
+scDRP.utils module
+------------------
+
+.. automodule:: scDRP.utils
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: scDRP
+   :members:
+   :private-members:
+   :show-inheritance:
+   :undoc-members:

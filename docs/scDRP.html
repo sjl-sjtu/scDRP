@@ -1,0 +1,1566 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scDRP package &mdash; scDRP 1.0.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="scDRP" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            scDRP
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">scDRP</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">scDRP package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scDRP.data">scDRP.data module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.data.CombinedDataset"><code class="docutils literal notranslate"><span class="pre">CombinedDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.data.LabelDataset"><code class="docutils literal notranslate"><span class="pre">LabelDataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.data.LatentDataset"><code class="docutils literal notranslate"><span class="pre">LatentDataset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scDRP.loss">scDRP.loss module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.HSICloss"><code class="docutils literal notranslate"><span class="pre">HSICloss()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.ZINBLoss"><code class="docutils literal notranslate"><span class="pre">ZINBLoss</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.center_kernel"><code class="docutils literal notranslate"><span class="pre">center_kernel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.conditional_HISCloss"><code class="docutils literal notranslate"><span class="pre">conditional_HISCloss()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.klLoss"><code class="docutils literal notranslate"><span class="pre">klLoss()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.klLoss_prior"><code class="docutils literal notranslate"><span class="pre">klLoss_prior()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.rbf_kernel"><code class="docutils literal notranslate"><span class="pre">rbf_kernel()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scDRP.model">scDRP.model module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.model.Decoder"><code class="docutils literal notranslate"><span class="pre">Decoder</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.model.Encoder"><code class="docutils literal notranslate"><span class="pre">Encoder</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.model.HardConcreteGate"><code class="docutils literal notranslate"><span class="pre">HardConcreteGate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.model.MSEDecoder"><code class="docutils literal notranslate"><span class="pre">MSEDecoder</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.model.NBDecoder"><code class="docutils literal notranslate"><span class="pre">NBDecoder</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.model.PerturbNet"><code class="docutils literal notranslate"><span class="pre">PerturbNet</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scDRP.module">scDRP.module module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.module.DosageModel"><code class="docutils literal notranslate"><span class="pre">DosageModel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.module.Perturb"><code class="docutils literal notranslate"><span class="pre">Perturb</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scDRP.train">scDRP.train module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.train.EarlyStopping"><code class="docutils literal notranslate"><span class="pre">EarlyStopping</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.train.inference_model"><code class="docutils literal notranslate"><span class="pre">inference_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.train.train_model"><code class="docutils literal notranslate"><span class="pre">train_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.train.validate_model"><code class="docutils literal notranslate"><span class="pre">validate_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scDRP.utils">scDRP.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.utils.add_effect"><code class="docutils literal notranslate"><span class="pre">add_effect()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.utils.condition_quantile"><code class="docutils literal notranslate"><span class="pre">condition_quantile()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.utils.conditional_OT_latent"><code class="docutils literal notranslate"><span class="pre">conditional_OT_latent()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.utils.to_dense_array"><code class="docutils literal notranslate"><span class="pre">to_dense_array()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-scDRP">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">scDRP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">scDRP</a></li>
+      <li class="breadcrumb-item active">scDRP package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/scDRP.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="scdrp-package">
+<h1>scDRP package<a class="headerlink" href="#scdrp-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-scDRP.data">
+<span id="scdrp-data-module"></span><h2>scDRP.data module<a class="headerlink" href="#module-scDRP.data" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.data.CombinedDataset">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.data.</span></span><span class="sig-name descname"><span class="pre">CombinedDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.data.CombinedDataset" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+<p>Dataset for the combined data</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.data.CombinedDataset.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.data.CombinedDataset.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – numpy array of shape (n_samples, n_features)</p></li>
+<li><p><strong>a</strong> – one-hot encoded numpy array of shape (n_samples, num_perturbations)</p></li>
+<li><p><strong>t</strong> – one-hot encoded numpy array of shape (n_samples, num_celltypes) or None</p></li>
+<li><p><strong>c</strong> – one-hot encoded numpy array of shape (n_samples, batch_dim) or None</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.data.LabelDataset">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.data.</span></span><span class="sig-name descname"><span class="pre">LabelDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.data.LabelDataset" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+<p>Dataset for the combined data</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.data.LabelDataset.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.data.LabelDataset.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> – one-hot encoded numpy array of shape (n_samples, num_perturbations)</p></li>
+<li><p><strong>t</strong> – one-hot encoded numpy array of shape (n_samples, num_celltypes) or None</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.data.LatentDataset">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.data.</span></span><span class="sig-name descname"><span class="pre">LatentDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.data.LatentDataset" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+<p>Dataset for the combined data</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.data.LatentDataset.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.data.LatentDataset.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z</strong> – numpy array of shape (n_samples, latemt_dim)</p></li>
+<li><p><strong>c</strong> – one-hot encoded numpy array of shape (n_samples, batch_dim) or None</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-scDRP.loss">
+<span id="scdrp-loss-module"></span><h2>scDRP.loss module<a class="headerlink" href="#module-scDRP.loss" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="scDRP.loss.HSICloss">
+<span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">HSICloss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.HSICloss" title="Link to this definition"></a></dt>
+<dd><p>Compute Hilbert-Schmidt Independence Criterion (HSIC) between two sets of samples</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – input samples 1 (batch_size, dim)</p></li>
+<li><p><strong>Y</strong> – input samples 2 (batch_size, dim)</p></li>
+<li><p><strong>sigma</strong> – RBF kernel width</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Hilbert-Schmidt Independence Criterion (smaller HSIC means more independent)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>HSIC</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.loss.ZINBLoss">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">ZINBLoss</span></span><a class="headerlink" href="#scDRP.loss.ZINBLoss" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Zero-Inflated Negative Binomial Loss</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.ZINBLoss.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.ZINBLoss.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize internal Module state, shared by both nn.Module and ScriptModule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.ZINBLoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rho</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dispersion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.ZINBLoss.forward" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – observed data</p></li>
+<li><p><strong>rho</strong> – mean gene expression (mean of the negative binomial distribution equals rho * s)</p></li>
+<li><p><strong>dispersion</strong> – dispersion of the negative binomial distribution</p></li>
+<li><p><strong>pi</strong> – zero-inflation parameter</p></li>
+<li><p><strong>s</strong> – scale parameter (library size)</p></li>
+<li><p><strong>eps</strong> – small value to prevent numerical instability</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>negative log likelihood</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>loss</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scDRP.loss.center_kernel">
+<span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">center_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Kz</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.center_kernel" title="Link to this definition"></a></dt>
+<dd><p>Centers the kernel matrix K with respect to the conditioning variable Z.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>K</strong> (<em>numpy.ndarray</em>) – Kernel matrix of shape (n, n).</p></li>
+<li><p><strong>Kz</strong> (<em>numpy.ndarray</em>) – Kernel matrix for Z of shape (n, n).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Centered kernel matrix of shape (n, n).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scDRP.loss.conditional_HISCloss">
+<span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">conditional_HISCloss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.conditional_HISCloss" title="Link to this definition"></a></dt>
+<dd><p>Computes the Conditional Hilbert-Schmidt Independence Criterion (CHSIC).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>numpy.ndarray</em>) – Sample matrix for variable X, shape (n, d_x).</p></li>
+<li><p><strong>Y</strong> (<em>numpy.ndarray</em>) – Sample matrix for variable Y, shape (n, d_y).</p></li>
+<li><p><strong>Z</strong> (<em>numpy.ndarray</em>) – Sample matrix for conditioning variable Z, shape (n, d_z).</p></li>
+<li><p><strong>sigma</strong> (<em>float</em><em>, </em><em>optional</em>) – Bandwidth parameter for the RBF kernel. Defaults to 1.0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The conditional HSIC value, representing the dependency between X and Y given Z.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scDRP.loss.klLoss">
+<span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">klLoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logvar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.klLoss" title="Link to this definition"></a></dt>
+<dd><p>KL divergence between the latent distribution and the prior</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mu</strong> – mean of the latent distribution</p></li>
+<li><p><strong>logvar</strong> – log variance of the latent distribution</p></li>
+<li><p><strong>Returns</strong></p></li>
+<li><p><strong>kl</strong> – KL divergence</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>KL divergence</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>kl</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scDRP.loss.klLoss_prior">
+<span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">klLoss_prior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu_q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logvar_q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu_p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logvar_p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.klLoss_prior" title="Link to this definition"></a></dt>
+<dd><p>Compute KL(q || p) for two Gaussians q(z|x) ~ N(mu_p, exp(logvar_p)) and p(z) ~ N(mu_q, exp(logvar_q))</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mu_q</strong> – mean of q</p></li>
+<li><p><strong>logvar_q</strong> – log variance of q</p></li>
+<li><p><strong>mu_p</strong> – mean of p</p></li>
+<li><p><strong>logvar_p</strong> – log variance of p</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>KL divergence</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>kl</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scDRP.loss.rbf_kernel">
+<span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">rbf_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.rbf_kernel" title="Link to this definition"></a></dt>
+<dd><p>Compute the RBF (Gaussian) kernel matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – input samples 2 (batch_size, dim)</p></li>
+<li><p><strong>Y</strong> – input samples 2 (batch_size, dim)</p></li>
+<li><p><strong>sigma</strong> – RBF kernel width</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>RBF kernel matrix</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>K</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-scDRP.model">
+<span id="scdrp-model-module"></span><h2>scDRP.model module<a class="headerlink" href="#module-scDRP.model" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.model.Decoder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.model.</span></span><span class="sig-name descname"><span class="pre">Decoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.Decoder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>ZINB Decoder network</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.Decoder.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.Decoder.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dim</strong> – int, input dimension</p></li>
+<li><p><strong>covariate_dim</strong> – int, covariate dimension</p></li>
+<li><p><strong>layer_dims</strong> – list of int, hidden layer dimensions</p></li>
+<li><p><strong>latent_dim</strong> – int, latent dimension</p></li>
+<li><p><strong>dropout_rate</strong> – float, dropout rate in MLP</p></li>
+<li><p><strong>library_size_strategy</strong> – str, strategy to sample library size (default: “observed”) Options:
+- “observed”: use the observed library size
+- “pseudo”: use a pseudo library size</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.Decoder.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dispersion_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gene'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.Decoder.forward" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z</strong> – torch.Tensor, latent variables (batch_size x latent_dim)</p></li>
+<li><p><strong>c</strong> – torch.Tensor, covariate data (batch_size x covariate_dim)</p></li>
+<li><p><strong>dispersion_strategy</strong> – str, strategy to specify dispersion factor (we have two options: gene-wise and gene-cell wise but currently use gene-wise only)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>torch.Tensor, mean of the negative binomial distribution
+dispersion: torch.Tensor, dispersion of the negative binomial distribution
+pi: torch.Tensor, zero-inflation parameter</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>rho</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.model.Encoder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.model.</span></span><span class="sig-name descname"><span class="pre">Encoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.Encoder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Encoder network</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.Encoder.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.Encoder.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dim</strong> – int, input dimension</p></li>
+<li><p><strong>layer_dims</strong> – list of int, hidden layer dimensions</p></li>
+<li><p><strong>latent_dim</strong> – int, latent dimension</p></li>
+<li><p><strong>dropout_rate</strong> – float, dropout rate in MLP</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.Encoder.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.Encoder.forward" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – torch.Tensor, input data (batch_size x input_dim)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>torch.Tensor, latent variable
+mu: torch.Tensor, mean of the latent variable
+logvar: torch.Tensor, log variance of the latent variable</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>z</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.Encoder.reparameterize">
+<span class="sig-name descname"><span class="pre">reparameterize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logvar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.Encoder.reparameterize" title="Link to this definition"></a></dt>
+<dd><p>Reparameterization trick</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mu</strong> – torch.Tensor, mean of the latent variable</p></li>
+<li><p><strong>logvar</strong> – torch.Tensor, log variance of the latent variable</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>torch.Tensor, latent variable</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>z</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.model.HardConcreteGate">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.model.</span></span><span class="sig-name descname"><span class="pre">HardConcreteGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6666666666666666</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.HardConcreteGate" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Hard Concrete Gate</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.HardConcreteGate.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6666666666666666</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.HardConcreteGate.__init__" title="Link to this definition"></a></dt>
+<dd><p>Hard Concrete Gate</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> – int, size of the gate</p></li>
+<li><p><strong>beta</strong> – float, temperature parameter</p></li>
+<li><p><strong>gamma</strong> – float, left stretch parameter</p></li>
+<li><p><strong>zeta</strong> – float, right stretch parameter</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.HardConcreteGate.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.HardConcreteGate.forward" title="Link to this definition"></a></dt>
+<dd><p>Forward pass with gating</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – input tensor</p></li>
+<li><p><strong>training</strong> – whether the model is in training mode</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>gated output tensor
+gate: sampled gate values</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.HardConcreteGate.regularization_loss">
+<span class="sig-name descname"><span class="pre">regularization_loss</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.HardConcreteGate.regularization_loss" title="Link to this definition"></a></dt>
+<dd><p>Compute the expected L0 penalty</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a tensor representing the expected L0 penalty (prob of being nonzero)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>prob_nonzero</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.HardConcreteGate.sample_gate">
+<span class="sig-name descname"><span class="pre">sample_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.HardConcreteGate.sample_gate" title="Link to this definition"></a></dt>
+<dd><p>Sample gate values</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>training</strong> – bool, whether the model is in training mode</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a tensor representing the sampled gate values</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>gate</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.model.MSEDecoder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.model.</span></span><span class="sig-name descname"><span class="pre">MSEDecoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Normal'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.MSEDecoder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>MSE Decoder network</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.MSEDecoder.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Normal'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.MSEDecoder.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dim</strong> – int, input dimension</p></li>
+<li><p><strong>covariate_dim</strong> – int, covariate dimension</p></li>
+<li><p><strong>layer_dims</strong> – list of int, hidden layer dimensions</p></li>
+<li><p><strong>latent_dim</strong> – int, latent dimension</p></li>
+<li><p><strong>dropout_rate</strong> – float, dropout rate in MLP</p></li>
+<li><p><strong>distribution</strong> – str, output distribution to model the data (default: “Normal”) Options:
+- “Normal” (Gaussian)
+- “Normal_possitive” (positive Gaussian)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.MSEDecoder.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dispersion_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gene'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.MSEDecoder.forward" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z</strong> – torch.Tensor, latent variable (batch_size x latent_dim)</p></li>
+<li><p><strong>c</strong> – torch.Tensor, covariate data (batch_size x covariate_dim)</p></li>
+<li><p><strong>dispersion_strategy</strong> – str, strategy to specify dispersion factor (we have two options: gene-wise and gene-cell wise but currently use gene-wise only)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>torch.Tensor, mean of the negative binomial distribution
+dispersion: torch.Tensor, dispersion of the negative binomial distribution
+pi: torch.Tensor, zero-inflation parameter</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>rho</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.model.NBDecoder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.model.</span></span><span class="sig-name descname"><span class="pre">NBDecoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.NBDecoder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>NB Decoder network</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.NBDecoder.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.NBDecoder.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dim</strong> – int, input dimension</p></li>
+<li><p><strong>covariate_dim</strong> – int, covariate dimension</p></li>
+<li><p><strong>layer_dims</strong> – list of int, hidden layer dimensions</p></li>
+<li><p><strong>latent_dim</strong> – int, latent dimension</p></li>
+<li><p><strong>dropout_rate</strong> – float, dropout rate in MLP</p></li>
+<li><p><strong>library_size_strategy</strong> – str, strategy to sample library size (default: “observed”) Options:
+- “observed”: use the observed library size
+- “pseudo”: use a pseudo library size</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.NBDecoder.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dispersion_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gene'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.NBDecoder.forward" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>z</strong> – torch.Tensor, latent variables (batch_size x latent_dim)</p></li>
+<li><p><strong>c</strong> – torch.Tensor, covariate data (batch_size x covariate_dim)</p></li>
+<li><p><strong>dispersion_strategy</strong> – str, strategy to specify dispersion factor (we have two options: gene-wise and gene-cell wise but currently use gene-wise only)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>torch.Tensor, mean of the negative binomial distribution
+dispersion: torch.Tensor, dispersion of the negative binomial distribution
+pi: torch.Tensor, zero-inflation parameter</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>rho</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.model.PerturbNet">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.model.</span></span><span class="sig-name descname"><span class="pre">PerturbNet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltype_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perturbation_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dep_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_ind_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l0_latent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_hsic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ZINB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder_covariates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.PerturbNet" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>scPerturb model</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.PerturbNet.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltype_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perturbation_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dep_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_ind_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l0_latent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_hsic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ZINB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder_covariates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.PerturbNet.__init__" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_dim</strong> – int, input dimension</p></li>
+<li><p><strong>covariate_dim</strong> – int, covariate dimension (default: 1)</p></li>
+<li><p><strong>celltype_num</strong> – int, number of cell types (default: 1)</p></li>
+<li><p><strong>perturbation_num</strong> – int, number of perturbations (default: 2)</p></li>
+<li><p><strong>layer_dims</strong> – list of int, hidden layer dimensions (default: [500,100])</p></li>
+<li><p><strong>latent_dep_dim</strong> – int, latent dimension for dependent variable (default: 20)</p></li>
+<li><p><strong>latent_ind_dim</strong> – int, latent dimension for independent variable (default: 10)</p></li>
+<li><p><strong>dropout_rate</strong> – float, dropout rate in MLP (default: 0.2)</p></li>
+<li><p><strong>lambda_sparse</strong> – float, sparsity penalty on the Jacobian matrix (default: 0)</p></li>
+<li><p><strong>l0_latent</strong> – float, L0 regularization weight on latent dimensions (default: 0)</p></li>
+<li><p><strong>distribution</strong> – str, output distribution to model the data. options (default: “ZINB”):
+- “ZINB” (zero-inflated negative binomial)
+- “NB” (negative binomial)
+- “Normal” (Gaussian)
+- “Normal_positive” (positive Gaussian)</p></li>
+<li><p><strong>lambda_hsic</strong> – float, weight for HSIC independence loss (default: 1)</p></li>
+<li><p><strong>library_size_strategy</strong> – str, strategy to sample library size Options (default: “observed”):
+- “batch_sample”: sample from batch empirical distribution
+- “observed”: use the observed library size
+- “original”: use original library size of 1</p></li>
+<li><p><strong>beta</strong> – float, KL divergence weight (default: 1)</p></li>
+<li><p><strong>encoder_covariates</strong> – boolean, whether to include covariates in encoders (default: False)</p></li>
+<li><p><strong>eps</strong> – float, small value to prevent numerical instability (default: 1e-10)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.PerturbNet.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.PerturbNet.forward" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – torch.Tensor, input data (batch_size, input_dim)</p></li>
+<li><p><strong>a</strong> – torch.Tensor, perturbation data (batch_size, perturbation_num)</p></li>
+<li><p><strong>t</strong> – torch.Tensor, cell type data (batch_size, celltype_num)</p></li>
+<li><p><strong>c</strong> – torch.Tensor, covariate data (batch_size, covariate_dim)</p></li>
+<li><p><strong>train</strong> – boolean, whether in training mode (default: True)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>torch.Tensor, latent representation that depends on perturbation, (batch_size, latent_dep_dim)
+z_u: torch.Tensor, latent representation that is independent from perturbation, (batch_size, latent_ind_dim)
+mu_d: torch.Tensor, mean of latent representation that depends on perturbation, (batch_size, latent_dep_dim)
+mu_u: torch.Tensor, mean of latent representation that is independent from perturbation, (batch_size, latent_ind_dim)
+rho: torch.Tensor, mean of the negative binomial distribution, (batch_size, input_dim)
+dispersion: torch.Tensor, dispersion of the negative binomial distribution, (input_dim,) when gene-wise
+pi: torch.Tensor, zero-inflation parameter, (batch_size, input_dim)
+s: torch.Tensor, library size, (batch_size, 1)
+loss: torch.Tensor, total loss
+loss_dict: dict, dictionary of losses</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>z_d</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.PerturbNet.reparameterize">
+<span class="sig-name descname"><span class="pre">reparameterize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logvar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.PerturbNet.reparameterize" title="Link to this definition"></a></dt>
+<dd><p>Reparameterization trick</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mu</strong> – torch.Tensor, mean of the latent variable</p></li>
+<li><p><strong>logvar</strong> – torch.Tensor, log variance of the latent variable</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>torch.Tensor, latent variable</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>z</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.PerturbNet.sample_sequencing_depth">
+<span class="sig-name descname"><span class="pre">sample_sequencing_depth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.PerturbNet.sample_sequencing_depth" title="Link to this definition"></a></dt>
+<dd><p>Sample sequencing depth</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – torch.Tensor, observed data</p></li>
+<li><p><strong>strategy</strong> – str, strategy to sample sequencing depth. Options (default: “observed”):
+- “batch_sample”: sample from batch empirical distribution
+- “observed”: use the observed library size
+- “original”: use original library size of 1</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>torch.Tensor, library size</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>s</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-scDRP.module">
+<span id="scdrp-module-module"></span><h2>scDRP.module module<a class="headerlink" href="#module-scDRP.module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.module.DosageModel">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.module.</span></span><span class="sig-name descname"><span class="pre">DosageModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.DosageModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.DosageModel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.DosageModel.__init__" title="Link to this definition"></a></dt>
+<dd><p>initialize the DosageModel with given models for mu and sigma.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>models</strong> – a dictionary containing ‘mu’ and ‘sigma’ models.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.DosageModel.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_new_log</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.DosageModel.predict" title="Link to this definition"></a></dt>
+<dd><p>Predict the mu and sigma for new dosage values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>v_new_log</strong> – a numpy array of log-transformed dosage values.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array of predicted means.
+sigma_pred: a numpy array of predicted standard deviations.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>mu_pred</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.module.Perturb">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.module.</span></span><span class="sig-name descname"><span class="pre">Perturb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perturbation_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'perturbation'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltype_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dose_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ZINB'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perturbation_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'perturbation'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltype_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dose_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ZINB'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the Perturb object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>adata</strong> – an AnnData object</p></li>
+<li><p><strong>layer</strong> – a string representing the layer name of count matrix in adata</p></li>
+<li><p><strong>perturbation_key</strong> – a string representing the key of perturbation in adata.obs</p></li>
+<li><p><strong>celltype_key</strong> – a string representing the key of cell type in adata.obs</p></li>
+<li><p><strong>batch_key</strong> – a string representing the key of batch in adata.obs</p></li>
+<li><p><strong>dose_key</strong> – a string representing the key of dose in adata.obs</p></li>
+<li><p><strong>distribution</strong> – a string representing the distribution of the data. Options (default: “ZINB”):
+- “ZINB”: Zero-Inflated Negative Binomial distribution
+- “NB”: Negative Binomial distribution
+- “Normal”: Gaussian distribution
+- “Normal_positive”: Gaussian distribution with positive output</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb._fit_dose_to_dist">
+<span class="sig-name descname"><span class="pre">_fit_dose_to_dist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gpr'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb._fit_dose_to_dist" title="Link to this definition"></a></dt>
+<dd><p>Fit models to map dosage values to latent distributions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – a numpy array representing the dosage values.</p></li>
+<li><p><strong>zd</strong> – a numpy array representing the latent embeddings.</p></li>
+<li><p><strong>method</strong> – a string representing the method to fit dosage to latent distribution. Options are ‘linear’, ‘spline’, or ‘gpr’. Defaults to ‘gpr’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a DosageModel object containing the fitted models.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb._fit_gpr">
+<span class="sig-name descname"><span class="pre">_fit_gpr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">means</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb._fit_gpr" title="Link to this definition"></a></dt>
+<dd><p>Fit Gaussian Process Regressors for the given doses, means, and standard deviations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doses</strong> – a numpy array representing the unique dosage values.</p></li>
+<li><p><strong>means</strong> – a numpy array representing the mean latent embeddings.</p></li>
+<li><p><strong>stds</strong> – a numpy array representing the standard deviation of latent embeddings.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a dictionary containing the fitted mu and sigma models.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb._fit_interpolator">
+<span class="sig-name descname"><span class="pre">_fit_interpolator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">means</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb._fit_interpolator" title="Link to this definition"></a></dt>
+<dd><p>Fit interpolators for the given doses, means, and standard deviations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>doses</strong> – a numpy array representing the unique dosage values.</p></li>
+<li><p><strong>means</strong> – a numpy array representing the mean latent embeddings.</p></li>
+<li><p><strong>stds</strong> – a numpy array representing the standard deviation of latent embeddings.</p></li>
+<li><p><strong>method</strong> – a string representing the interpolation method. Options are ‘linear’ or ‘spline’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a dictionary containing the fitted mu and sigma models.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb._generate_from_latent">
+<span class="sig-name descname"><span class="pre">_generate_from_latent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb._generate_from_latent" title="Link to this definition"></a></dt>
+<dd><p>Generate samples from latent embeddings</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>latent</strong> – torch Tensor containing latent factors, (sample_size, latent_dimensions)</p></li>
+<li><p><strong>covariates</strong> – torch Tensor containing one-hot encoded covariates, (sample_size, covariate_dimensions). Default: None</p></li>
+<li><p><strong>library_size</strong> – torch Tensor containing library sizes for new generate samples, (sample_size,1). Inferred library size of original adata will be used if None</p></li>
+<li><p><strong>n_samples</strong> – an integer representing the number of samples (Note: if latent is assigned a n*p matrix, then n_samples*n samples will generated in total!)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array representing the generated samples</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb._generate_latent">
+<span class="sig-name descname"><span class="pre">_generate_latent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">perturbations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb._generate_latent" title="Link to this definition"></a></dt>
+<dd><p>Generate latent embeddings from perturbations and cell types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>perturbations</strong> – a numpy array representing one-hot encoded perturbations</p></li>
+<li><p><strong>celltype</strong> – a numpy array representing one-hot encoded cell types</p></li>
+<li><p><strong>batch_size</strong> – an integer representing the batch size for DataLoader</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array representing the generated latent embeddings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb._representative_latent">
+<span class="sig-name descname"><span class="pre">_representative_latent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logvar</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb._representative_latent" title="Link to this definition"></a></dt>
+<dd><p>Generate representative latent embeddings by sampling from the learned distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mu</strong> – a numpy array representing the mean of the latent distribution</p></li>
+<li><p><strong>logvar</strong> – a numpy array representing the log variance of the latent distribution</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array representing the sampled latent embeddings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb._sample_from_parameter">
+<span class="sig-name descname"><span class="pre">_sample_from_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inference</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb._sample_from_parameter" title="Link to this definition"></a></dt>
+<dd><p>Generate samples from inferred ZINB parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_samples</strong> – an integer representing the number of samples</p></li>
+<li><p><strong>inference</strong> – a boolean representing whether to reconduct the inference process each time or simply use inferred parameters stored in the object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array representing the samples</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.counterfactual_samples">
+<span class="sig-name descname"><span class="pre">counterfactual_samples</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sinkhorn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.counterfactual_samples" title="Link to this definition"></a></dt>
+<dd><p>Estimate the Individual Treatment Effect (ITE) for a pair of control and treatment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>control</strong> – a string representing the name of control group (should be a value in adata.obs[perturbation_key]).</p></li>
+<li><p><strong>treatment</strong> – a string representing the name of treatment group (should be a value in adata.obs[perturbation_key]).</p></li>
+<li><p><strong>dose</strong> – a float representing the dose level (should be a value in adata.obs[dose_key]). If None, all doses will be considered.</p></li>
+<li><p><strong>strategy</strong> – a string representing the counterfactual generation strategy. Options:
+- “ot”: Optimal Transport
+- “average”: Average Effect Addition</p></li>
+<li><p><strong>alpha</strong> – a float representing the weight for zu embeddings in OT calculation. Default is 1.</p></li>
+<li><p><strong>beta</strong> – a float representing the weight for zd embeddings in OT calculation. Default is 1.</p></li>
+<li><p><strong>projection_strategy</strong> – a string representing the projection strategy for OT calculation. Options:
+- “full”: use full embeddings for OT calculation
+- “zd_only”: project zd embeddings while keep zu embeddings unchanged</p></li>
+<li><p><strong>value</strong> – a string representing the value type for OT cost calculation. Options:
+- “raw”: use raw embeddings for OT cost calculation
+- “quantile”: use quantile normalized embeddings for OT cost calculation</p></li>
+<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Optimal transport method. Options:
+- “emd”: Exact Optimal Transport
+- “sinkhorn”: Sinkhorn Regularized OT
+- “unbalanced_sinkhorn”: Unbalanced Sinkhorn Regularized OT
+Defaults to “emd”.</p></li>
+<li><p><strong>reg</strong> (<em>float</em><em>, </em><em>optional</em>) – Entropic regularization parameter for Sinkhorn. Default is 0.1. Only useful when specifying method as “sinkhorn” or “unbalanced_sinkhorn”.</p></li>
+<li><p><strong>reg_m</strong> (<em>float</em><em>, </em><em>optional</em>) – Marginal relaxation parameter (higher allows more mass deviation). Default is 1.0. Only useful when specifying method as “unbalanced_sinkhorn”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array representing the ITE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.create_dataset">
+<span class="sig-name descname"><span class="pre">create_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adata</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.create_dataset" title="Link to this definition"></a></dt>
+<dd><p>Create a dataset from the AnnData object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>adata</strong> – an AnnData object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a CombinedDataset object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.dosage_extrapolate">
+<span class="sig-name descname"><span class="pre">dosage_extrapolate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dose_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gpr'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.dosage_extrapolate" title="Link to this definition"></a></dt>
+<dd><p>Extrapolate latent embeddings for control group to new dosage levels based on treatment group data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>control</strong> – a string representing the name of control group (should be a value in adata.obs[perturbation_key]).</p></li>
+<li><p><strong>treatment</strong> – a string representing the name of treatment group (should be a value in adata.obs[perturbation_key]).</p></li>
+<li><p><strong>dose_value</strong> – a scalar or array-like representing the dosage value(s) for extrapolation.</p></li>
+<li><p><strong>method</strong> – a string representing the method to fit dosage to latent distribution. Options are ‘linear’, ‘spline’, or ‘gpr’. Defaults to ‘gpr’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array or a list of numpy arrays representing the counterfactual mean expressions at the specified dosage level(s).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.effect_estimate">
+<span class="sig-name descname"><span class="pre">effect_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'emd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.effect_estimate" title="Link to this definition"></a></dt>
+<dd><p>Estimate the Individual Treatment Effect (ITE) for a pair of control and treatment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>control</strong> – a string representing the name of control group (should be a value in adata.obs[perturbation_key]).</p></li>
+<li><p><strong>treatment</strong> – a string representing the name of treatment group (should be a value in adata.obs[perturbation_key]).</p></li>
+<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Optimal transport method. Options:
+- “emd”: Exact Optimal Transport
+- “sinkhorn”: Sinkhorn Regularized OT
+- “unbalanced_sinkhorn”: Unbalanced Sinkhorn Regularized OT
+Defaults to “emd”.</p></li>
+<li><p><strong>reg</strong> (<em>float</em><em>, </em><em>optional</em>) – Entropic regularization parameter for Sinkhorn. Default is 0.1. Only useful when specifying method as “sinkhorn” or “unbalanced_sinkhorn”.</p></li>
+<li><p><strong>reg_m</strong> (<em>float</em><em>, </em><em>optional</em>) – Marginal relaxation parameter (higher allows more mass deviation). Default is 1.0. Only useful when specifying method as “unbalanced_sinkhorn”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array representing the ITE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.get_adata">
+<span class="sig-name descname"><span class="pre">get_adata</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.get_adata" title="Link to this definition"></a></dt>
+<dd><p>Get the adata with latent variables and estimated generative parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>an AnnData object with latent embeddings and estimated ZINB generative parameters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.get_counterfactual_adata">
+<span class="sig-name descname"><span class="pre">get_counterfactual_adata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sinkhorn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.get_counterfactual_adata" title="Link to this definition"></a></dt>
+<dd><p>Generate counterfactual AnnData for a pair of control and treatment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>control</strong> – a string representing the name of control group (should be a value in adata.obs[perturbation_key]).</p></li>
+<li><p><strong>treatment</strong> – a string representing the name of treatment group (should be a value in adata.obs[perturbation_key]).</p></li>
+<li><p><strong>dose</strong> – a float representing the dose level (should be a value in adata.obs[dose_key]). If None, all doses will be considered.</p></li>
+<li><p><strong>covariates</strong> – a numpy array representing the one-hot encoded covariates for control group. If None, inferred covariates will be used.</p></li>
+<li><p><strong>strategy</strong> – a string representing the counterfactual generation strategy. Options:
+- “ot”: Optimal Transport
+- “average”: Average Effect Addition</p></li>
+<li><p><strong>alpha</strong> – a float representing the weight for zu embeddings in OT calculation. Default is 1.</p></li>
+<li><p><strong>beta</strong> – a float representing the weight for zd embeddings in OT calculation. Default is 1.</p></li>
+<li><p><strong>projection_strategy</strong> – a string representing the projection strategy for OT calculation. Options:
+- “full”: use full embeddings for OT calculation
+- “zd_only”: project zd embeddings while keep zu embeddings unchanged</p></li>
+<li><p><strong>value</strong> – a string representing the value type for OT cost calculation. Options:
+- “raw”: use raw embeddings for OT cost calculation
+- “quantile”: use quantile normalized embeddings for OT cost calculation</p></li>
+<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Optimal transport method. Options:
+- “emd”: Exact Optimal Transport
+- “sinkhorn”: Sinkhorn Regularized OT
+- “unbalanced_sinkhorn”: Unbalanced Sinkhorn Regularized OT
+Defaults to “emd”.</p></li>
+<li><p><strong>reg</strong> (<em>float</em><em>, </em><em>optional</em>) – Entropic regularization parameter for Sinkhorn. Default is 0.1. Only useful when specifying method as “sinkhorn” or “unbalanced_sinkhorn”.</p></li>
+<li><p><strong>reg_m</strong> (<em>float</em><em>, </em><em>optional</em>) – Marginal relaxation parameter (higher allows more mass deviation). Default is 1.0. Only useful when specifying method as “unbalanced_sinkhorn”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>an AnnData object representing the counterfactual samples</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.get_counterfactual_latent">
+<span class="sig-name descname"><span class="pre">get_counterfactual_latent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'emd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.get_counterfactual_latent" title="Link to this definition"></a></dt>
+<dd><p>Generate counterfactual latent embeddings for a pair of control and treatment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>control</strong> – a string representing the name of control group (should be a value in adata.obs[perturbation_key]).</p></li>
+<li><p><strong>treatment</strong> – a string representing the name of treatment group (should be a value in adata.obs[perturbation_key]).</p></li>
+<li><p><strong>dose</strong> – a float representing the dose level (should be a value in adata.obs[dose_key]). If None, all doses will be considered.</p></li>
+<li><p><strong>strategy</strong> – a string representing the strategy to generate counterfactual latent embeddings. Options:
+- “ot”: use optimal transport to estimate the latent shift
+- “average”: use average effect to estimate the latent shift</p></li>
+<li><p><strong>alpha</strong> – a float number representing the weight for zu in optimal transport. Default is 1.</p></li>
+<li><p><strong>beta</strong> – a float number representing the weight for zd in optimal transport. Default is 1.</p></li>
+<li><p><strong>projection_strategy</strong> – a string representing the projection strategy in optimal transport. Options:
+- “full”: use full latent embeddings for optimal transport
+- “zd_only”: transport only on dependent latent embeddings with independent latent embeddings fixed</p></li>
+<li><p><strong>value</strong> – a string representing the value type in optimal transport. Options:
+- “raw”: use raw latent embeddings for optimal transport
+- “quantile”: use quantile transformed latent embeddings for optimal transport</p></li>
+<li><p><strong>method</strong> – a string representing the optimal transport method. Options:
+- “emd”: Exact Optimal Transport
+- “sinkhorn”: Sinkhorn Regularized OT
+- “unbalanced_sinkhorn”: Unbalanced Sinkhorn Regularized OT
+Defaults to “emd”.</p></li>
+<li><p><strong>reg</strong> – a float number representing the entropic regularization parameter for Sinkhorn. Default is 0.01. Only useful when specifying method as “sinkhorn” or “unbalanced_sinkhorn”.</p></li>
+<li><p><strong>reg_m</strong> – a float number representing the marginal relaxation parameter (higher allows more mass deviation). Default is 1.0. Only useful when specifying method as “unbalanced_sinkhorn”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a tuple of numpy arrays representing the counterfactual latent embeddings (z,zd,zu)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.get_latent">
+<span class="sig-name descname"><span class="pre">get_latent</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.get_latent" title="Link to this definition"></a></dt>
+<dd><p>Return the disentangled latent embeddings.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.get_parameter_from_latent">
+<span class="sig-name descname"><span class="pre">get_parameter_from_latent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">latent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.get_parameter_from_latent" title="Link to this definition"></a></dt>
+<dd><p>Generate generative model (ZINB) parameters from latent embeddings</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>latent</strong> – torch Tensor containing latent factors, (batch_size, latent_dimensions)</p></li>
+<li><p><strong>covariates</strong> – torch Tensor containing one-hot encoded covariates, (batch_size, covariate_dimensions). Default: None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a tuple, ZINB paramters rho, dispersion, and pi in generative models</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.inference">
+<span class="sig-name descname"><span class="pre">inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">returns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.inference" title="Link to this definition"></a></dt>
+<dd><p>Perform inference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_samples</strong> – an integer representing the number of samples repeated for inference process</p></li>
+<li><p><strong>dataset</strong> – a CombinedDataset object. By default we use the training dataset</p></li>
+<li><p><strong>batch_size</strong> – an integer representing the batch size</p></li>
+<li><p><strong>update</strong> – a boolean representing whether to update the adata</p></li>
+<li><p><strong>returns</strong> – a boolean representing whether to return the results</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a tuple of numpy arrays representing the latent variables (z_d,z_u,mu_d,mu_u,rho,dispersion,dropout_rate,library_size)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.joint_effect_estimate">
+<span class="sig-name descname"><span class="pre">joint_effect_estimate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dose1</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dose2</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sinkhorn'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.joint_effect_estimate" title="Link to this definition"></a></dt>
+<dd><p>Estimate the joint effect for a pair of treatments compared to a control.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>control</strong> – a string representing the name of control group (should be a value in adata.obs[perturbation_key]).</p></li>
+<li><p><strong>treatment1</strong> – a string representing the name of first treatment group (should be a value in adata.obs[perturbation_key]).</p></li>
+<li><p><strong>treatment2</strong> – a string representing the name of second treatment group (should be a value in adata.obs[perturbation_key]).</p></li>
+<li><p><strong>dose1</strong> – a float representing the dose level for first treatment (should be a value in adata.obs[dose_key]). If None, all doses will be considered.</p></li>
+<li><p><strong>dose2</strong> – a float representing the dose level for second treatment (should be a value in adata.obs[dose_key]). If None, all doses will be considered.</p></li>
+<li><p><strong>strategy</strong> – a string representing the counterfactual generation strategy. Options:
+- “ot”: Optimal Transport
+- “average”: Average Effect Addition</p></li>
+<li><p><strong>alpha</strong> – a float representing the weight for zu embeddings in OT calculation. Default is 1.</p></li>
+<li><p><strong>beta</strong> – a float representing the weight for zd embeddings in OT calculation. Default is 1.</p></li>
+<li><p><strong>projection_strategy</strong> – a string representing the projection strategy for OT calculation. Options:
+- “full”: use full embeddings for OT calculation
+- “zd_only”: project zd embeddings while keep zu embeddings unchanged</p></li>
+<li><p><strong>value</strong> – a string representing the value type for OT cost calculation. Options:
+- “raw”: use raw embeddings for OT cost calculation
+- “quantile”: use quantile normalized embeddings for OT cost calculation</p></li>
+<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Optimal transport method. Options:
+- “emd”: Exact Optimal Transport
+- “sinkhorn”: Sinkhorn Regularized OT
+- “unbalanced_sinkhorn”: Unbalanced Sinkhorn Regularized OT
+Defaults to “emd”.</p></li>
+<li><p><strong>reg</strong> (<em>float</em><em>, </em><em>optional</em>) – Entropic regularization parameter for Sinkhorn. Default is 0.1. Only useful when specifying method as “sinkhorn” or “unbalanced_sinkhorn”.</p></li>
+<li><p><strong>reg_m</strong> (<em>float</em><em>, </em><em>optional</em>) – Marginal relaxation parameter (higher allows more mass deviation). Default is 1.0. Only useful when specifying method as “unbalanced_sinkhorn”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array representing the joint effect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.latent_adaption">
+<span class="sig-name descname"><span class="pre">latent_adaption</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_zd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment_zd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_zu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment_zu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_celltype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment_celltype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'emd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.latent_adaption" title="Link to this definition"></a></dt>
+<dd><p>Generate counterfactual latent embeddings for a pair of control and treatment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>control_zd</strong> – a numpy array representing the dependent latent embeddings of control group</p></li>
+<li><p><strong>treatment_zd</strong> – a numpy array representing the dependent latent embeddings of treatment group</p></li>
+<li><p><strong>control_zu</strong> – a numpy array representing the independent latent embeddings of control group</p></li>
+<li><p><strong>treatment_zu</strong> – a numpy array representing the independent latent embeddings of treatment group</p></li>
+<li><p><strong>control_celltype</strong> – a numpy array representing the one-hot encoded cell types of control group</p></li>
+<li><p><strong>treatment_celltype</strong> – a numpy array representing the one-hot encoded cell types of treatment group</p></li>
+<li><p><strong>strategy</strong> – a string representing the strategy to generate counterfactual latent embeddings. Options:
+- “ot”: use optimal transport to estimate the latent shift
+- “average”: use average effect to estimate the latent shift</p></li>
+<li><p><strong>alpha</strong> – a float number representing the weight for zu in optimal transport. Default is 1.</p></li>
+<li><p><strong>beta</strong> – a float number representing the weight for zd in optimal transport. Default is 1.</p></li>
+<li><p><strong>projection_strategy</strong> – a string representing the projection strategy in optimal transport. Options:
+- “full”: use full latent embeddings for optimal transport
+- “zd_only”: transport only on dependent latent embeddings with independent latent embeddings fixed</p></li>
+<li><p><strong>value</strong> – a string representing the value type in optimal transport. Options:
+- “raw”: use raw latent embeddings for optimal transport
+- “quantile”: use quantile transformed latent embeddings for optimal transport</p></li>
+<li><p><strong>method</strong> – a string representing the optimal transport method. Options:
+- “emd”: Exact Optimal Transport
+- “sinkhorn”: Sinkhorn Regularized OT
+- “unbalanced_sinkhorn”: Unbalanced Sinkhorn Regularized OT
+Defaults to “emd”.</p></li>
+<li><p><strong>reg</strong> – a float number representing the entropic regularization parameter for Sinkhorn. Default is 0.01. Only useful when specifying method as “sinkhorn” or “unbalanced_sinkhorn”.</p></li>
+<li><p><strong>reg_m</strong> – a float number representing the marginal relaxation parameter (higher allows more mass deviation). Default is 1.0. Only useful when specifying method as “unbalanced_sinkhorn”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array representing the counterfactual latent embeddings
+counterfactual_zd: a numpy array representing the counterfactual dependent latent embeddings
+counterfactual_zu: a numpy array representing the counterfactual independent latent embeddings</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>counterfactual_z</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.load" title="Link to this definition"></a></dt>
+<dd><p>Load the trained model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – a string representing the path to the model checkpoint.</p></li>
+<li><p><strong>device</strong> – the device to load the model onto. Default is None, which uses self.device.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.sample_posterior">
+<span class="sig-name descname"><span class="pre">sample_posterior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">theta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.sample_posterior" title="Link to this definition"></a></dt>
+<dd><p>Sample from the posterior distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_samples</strong> – an integer representing the number of samples (Note: if mu is assigned a n*p matrix, then n_sample*n samples will generated in total!)</p></li>
+<li><p><strong>mu</strong> – a numpy array representing the mean of the negative binomial distribution.</p></li>
+<li><p><strong>theta</strong> – a numpy array representing the dispersion of the negative binomial distribution</p></li>
+<li><p><strong>pi</strong> – a numpy array representing the dropout rate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array representing the samples</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.save" title="Link to this definition"></a></dt>
+<dd><p>Save the trained model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> – a string representing the path to the model checkpoint.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hidden_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[128,</span> <span class="pre">128]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dependent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_independent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_coef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l0_latent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_hsic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.setup" title="Link to this definition"></a></dt>
+<dd><p>Setup the model for training.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hidden_layers</strong> – a list of integers representing the number of neurons in each hidden layer</p></li>
+<li><p><strong>latent_dependent</strong> – an integer representing the dimensions of z_D</p></li>
+<li><p><strong>latent_independent</strong> – an integer representing the dimensions of z_I</p></li>
+<li><p><strong>beta</strong> – a float number representing the weight of the KL divergence term</p></li>
+<li><p><strong>sparse_coef</strong> – a float number representing the weight of the sparsity regularization on the Jacobian matrix</p></li>
+<li><p><strong>l0_latent</strong> – a float number representing the weight of the L0 regularization on the dimensions of latent variables</p></li>
+<li><p><strong>lambda_hsic</strong> – a float number representing the weight of the HSIC regularization</p></li>
+<li><p><strong>library_size_strategy</strong> – a string representing the library size normalization strategy. Options (default: “observed”):
+- “batch_sample”: sample from batch empirical distribution
+- “observed”: use the observed library size
+- “original”: set the library size as 1</p></li>
+<li><p><strong>device</strong> – the device to run the model on. Default is None, which uses ‘cuda’ if available, else ‘cpu’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.module.Perturb.train">
+<span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accumulation_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adaptlr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_prop</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_stopping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tensorboard</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'./'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.train" title="Link to this definition"></a></dt>
+<dd><p>Train the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>epoch_num</strong> – an integer representing the number of epochs</p></li>
+<li><p><strong>batch_size</strong> – an integer representing the batch size</p></li>
+<li><p><strong>lr</strong> – a float number representing the learning rate</p></li>
+<li><p><strong>accumulation_steps</strong> – an integer representing the number of steps for gradient accumulation</p></li>
+<li><p><strong>adaptlr</strong> – a boolean representing whether to use adaptive learning rate</p></li>
+<li><p><strong>valid_prop</strong> – a float number representing the proportion of the dataset to use for validation</p></li>
+<li><p><strong>early_stopping</strong> – a boolean representing whether to use early stopping</p></li>
+<li><p><strong>patience</strong> – an integer representing the number of epochs to wait for improvement before stopping</p></li>
+<li><p><strong>tensorboard</strong> – a boolean representing whether to use tensorboard</p></li>
+<li><p><strong>savepath</strong> – a string representing the path to save the tensorboard logs</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-scDRP.train">
+<span id="scdrp-train-module"></span><h2>scDRP.train module<a class="headerlink" href="#module-scDRP.train" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.train.EarlyStopping">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.train.</span></span><span class="sig-name descname"><span class="pre">EarlyStopping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.train.EarlyStopping" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Early stops the training if validation loss doesn’t improve after a given patience.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.train.EarlyStopping.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.train.EarlyStopping.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the EarlyStopping object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>patience</strong> – number of epochs with no improvement after which training will be stopped</p></li>
+<li><p><strong>delta</strong> – minimum change in the monitored quantity to qualify as an improvement</p></li>
+<li><p><strong>verbose</strong> – whether to print messages when stopping</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.train.EarlyStopping.save_checkpoint">
+<span class="sig-name descname"><span class="pre">save_checkpoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'best_model.pt'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.train.EarlyStopping.save_checkpoint" title="Link to this definition"></a></dt>
+<dd><p>Saves model when validation loss decrease.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scDRP.train.inference_model">
+<span class="sig-prename descclassname"><span class="pre">scDRP.train.</span></span><span class="sig-name descname"><span class="pre">inference_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">infer_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.train.inference_model" title="Link to this definition"></a></dt>
+<dd><p>Do inference using the trained model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device</strong> – device to run the model</p></li>
+<li><p><strong>infer_dataset</strong> – inference dataset</p></li>
+<li><p><strong>model</strong> – trained model to inference</p></li>
+<li><p><strong>batch_size</strong> – batch size</p></li>
+<li><p><strong>count_data</strong> – whether the data is count data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>latent representation that depends on perturbation
+zu: latent representation that is independent from perturbation
+mu_d: mean of latent representation that depends on perturbation
+mu_u: mean of latent representation that is independent from perturbation
+rho: mean expression level
+dispersion: dispersion parameter (only for count data)
+pi: zero-inflation parameter (only for count data)
+library_size: size of the library (only for count data)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>zd</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scDRP.train.train_model">
+<span class="sig-prename descclassname"><span class="pre">scDRP.train.</span></span><span class="sig-name descname"><span class="pre">train_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch_num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">accumulation_steps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">adaptlr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_stopping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">patience</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.train.train_model" title="Link to this definition"></a></dt>
+<dd><p>Train the model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device</strong> – device to run the model</p></li>
+<li><p><strong>writer</strong> – tensorboard writer</p></li>
+<li><p><strong>train_dataset</strong> – training dataset</p></li>
+<li><p><strong>model</strong> – model to train</p></li>
+<li><p><strong>epoch_num</strong> – number of epochs</p></li>
+<li><p><strong>batch_size</strong> – batch size</p></li>
+<li><p><strong>num_batch</strong> – number of batches</p></li>
+<li><p><strong>lr</strong> – learning rate</p></li>
+<li><p><strong>accumulation_steps</strong> – number of steps to accumulate gradients</p></li>
+<li><p><strong>adaptlr</strong> – whether to adapt learning rate</p></li>
+<li><p><strong>count_data</strong> – whether the data is count data</p></li>
+<li><p><strong>early_stopping</strong> – whether to use early stopping</p></li>
+<li><p><strong>patience</strong> – patience for early stopping</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scDRP.train.validate_model">
+<span class="sig-prename descclassname"><span class="pre">scDRP.train.</span></span><span class="sig-name descname"><span class="pre">validate_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">count_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.train.validate_model" title="Link to this definition"></a></dt>
+<dd><p>Validate the model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device</strong> – device to run the model</p></li>
+<li><p><strong>validate_dataset</strong> – validation dataset</p></li>
+<li><p><strong>model</strong> – model to validate</p></li>
+<li><p><strong>batch_size</strong> – batch size</p></li>
+<li><p><strong>count_data</strong> – whether the data is count data</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-scDRP.utils">
+<span id="scdrp-utils-module"></span><h2>scDRP.utils module<a class="headerlink" href="#module-scDRP.utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="scDRP.utils.add_effect">
+<span class="sig-prename descclassname"><span class="pre">scDRP.utils.</span></span><span class="sig-name descname"><span class="pre">add_effect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_zd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment_zd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment_label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.utils.add_effect" title="Link to this definition"></a></dt>
+<dd><p>Computes counterfactual latent representations by adding the average treatment effect within each group.
+:param control_zd: Source matrix of shape (N, D_d).
+:type control_zd: np.ndarray
+:param treatment_zd: Target matrix of shape (M, D_d).
+:type treatment_zd: np.ndarray
+:param control_label: Group labels of shape (N,), indicating which group each row in X belongs to.
+:type control_label: np.ndarray
+:param treatment_label: Group labels of shape (M,), indicating which group each row in Y belongs to.
+:type treatment_label: np.ndarray</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scDRP.utils.condition_quantile">
+<span class="sig-prename descclassname"><span class="pre">scDRP.utils.</span></span><span class="sig-name descname"><span class="pre">condition_quantile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.utils.condition_quantile" title="Link to this definition"></a></dt>
+<dd><p>Calculate the quantile of each column in X conditioned on y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – a numpy array</p></li>
+<li><p><strong>y</strong> – a numpy array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array representing the quantile of each column in X conditioned on y</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scDRP.utils.conditional_OT_latent">
+<span class="sig-prename descclassname"><span class="pre">scDRP.utils.</span></span><span class="sig-name descname"><span class="pre">conditional_OT_latent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">control_zd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment_zd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_zu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment_zu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">control_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">treatment_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'full'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raw'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'emd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reg_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.utils.conditional_OT_latent" title="Link to this definition"></a></dt>
+<dd><p>Computes a global optimal transport matching matrix (quantile matching of zd and value matching of zip), ensuring that matches occur only within groups.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>control_zd</strong> (<em>np.ndarray</em>) – Source matrix of shape (N, D_d).</p></li>
+<li><p><strong>control_zu</strong> (<em>np.ndarray</em>) – Source matrix of shape (N, D_i).</p></li>
+<li><p><strong>treatment_zd</strong> (<em>np.ndarray</em>) – Target matrix of shape (M, D_d).</p></li>
+<li><p><strong>treatment_zu</strong> (<em>np.ndarray</em>) – Target matrix of shape (M, D_i).</p></li>
+<li><p><strong>control_label</strong> (<em>np.ndarray</em>) – Group labels of shape (N,), indicating which group each row in X belongs to.</p></li>
+<li><p><strong>treatment_label</strong> (<em>np.ndarray</em>) – Group labels of shape (M,), indicating which group each row in Y belongs to.</p></li>
+<li><p><strong>alpha</strong> (<em>float</em><em>, </em><em>optional</em>) – Weight for the distance in zd space. Default is 1.</p></li>
+<li><p><strong>beta</strong> (<em>float</em><em>, </em><em>optional</em>) – Weight for the distance in zu space. Default is 1</p></li>
+<li><p><strong>projection_strategy</strong> (<em>str</em><em>, </em><em>optional</em>) – Strategy for constructing counterfactual latent representations. Options:
+- “full”: Use both zd and zu for counterfactual construction.
+- “zd_only”: Use only zd for counterfactual construction, keeping zu unchanged.
+Defaults to “full”.</p></li>
+<li><p><strong>method</strong> (<em>str</em><em>, </em><em>optional</em>) – Optimal transport method. Options:
+- “emd”: Exact Optimal Transport
+- “sinkhorn”: Sinkhorn Regularized OT
+- “unbalanced_sinkhorn”: Unbalanced Sinkhorn Regularized OT
+Defaults to “emd”.</p></li>
+<li><p><strong>reg</strong> (<em>float</em><em>, </em><em>optional</em>) – Entropic regularization parameter for Sinkhorn. Default is 0.1. Only useful when specifying method as “sinkhorn” or “unbalanced_sinkhorn”.</p></li>
+<li><p><strong>reg_m</strong> (<em>float</em><em>, </em><em>optional</em>) – Marginal relaxation parameter (higher allows more mass deviation). Default is 1.0. Only useful when specifying method as “unbalanced_sinkhorn”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A global matching matrix (N, M), where matches are restricted within the same group.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="scDRP.utils.to_dense_array">
+<span class="sig-prename descclassname"><span class="pre">scDRP.utils.</span></span><span class="sig-name descname"><span class="pre">to_dense_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.utils.to_dense_array" title="Link to this definition"></a></dt>
+<dd><p>Transform a potential sparse array to numpy array
+:param x: input array, can be sparse or numpy array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-scDRP">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-scDRP" title="Link to this heading"></a></h2>
+<p>A package to learn disentangled representations and estimate individual treatment effects in single-cell perturbation data.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="scDRP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Jianle Sun.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
