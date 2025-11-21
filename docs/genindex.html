@@ -89,6 +89,7 @@
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#Z"><strong>Z</strong></a>
  
@@ -102,6 +103,12 @@
         <li><a href="scDRP.html#scDRP.data.LabelDataset.__init__">(scDRP.data.LabelDataset method)</a>
 </li>
         <li><a href="scDRP.html#scDRP.data.LatentDataset.__init__">(scDRP.data.LatentDataset method)</a>
+</li>
+        <li><a href="scDRP.html#scDRP.loss.HSICLoss.__init__">(scDRP.loss.HSICLoss method)</a>
+</li>
+        <li><a href="scDRP.html#scDRP.loss.NOCCOLoss.__init__">(scDRP.loss.NOCCOLoss method)</a>
+</li>
+        <li><a href="scDRP.html#scDRP.loss.UnnormalizedHSCICLoss.__init__">(scDRP.loss.UnnormalizedHSCICLoss method)</a>
 </li>
         <li><a href="scDRP.html#scDRP.loss.ZINBLoss.__init__">(scDRP.loss.ZINBLoss method)</a>
 </li>
@@ -124,22 +131,62 @@
         <li><a href="scDRP.html#scDRP.train.EarlyStopping.__init__">(scDRP.train.EarlyStopping method)</a>
 </li>
       </ul></li>
+      <li><a href="scDRP.html#scDRP.loss.NOCCOLoss._center_gram">_center_gram() (scDRP.loss.NOCCOLoss method)</a>
+
+      <ul>
+        <li><a href="scDRP.html#scDRP.loss.UnnormalizedHSCICLoss._center_gram">(scDRP.loss.UnnormalizedHSCICLoss method)</a>
+</li>
+      </ul></li>
+      <li><a href="scDRP.html#scDRP.loss.NOCCOLoss._compute_normalized_cov">_compute_normalized_cov() (scDRP.loss.NOCCOLoss method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scDRP.html#scDRP.loss.HSICLoss._compute_sigma">_compute_sigma() (scDRP.loss.HSICLoss method)</a>
+
+      <ul>
+        <li><a href="scDRP.html#scDRP.loss.NOCCOLoss._compute_sigma">(scDRP.loss.NOCCOLoss method)</a>
+</li>
+        <li><a href="scDRP.html#scDRP.loss.UnnormalizedHSCICLoss._compute_sigma">(scDRP.loss.UnnormalizedHSCICLoss method)</a>
+</li>
+      </ul></li>
       <li><a href="scDRP.html#scDRP.module.Perturb._fit_dose_to_dist">_fit_dose_to_dist() (scDRP.module.Perturb method)</a>
 </li>
       <li><a href="scDRP.html#scDRP.module.Perturb._fit_gpr">_fit_gpr() (scDRP.module.Perturb method)</a>
 </li>
       <li><a href="scDRP.html#scDRP.module.Perturb._fit_interpolator">_fit_interpolator() (scDRP.module.Perturb method)</a>
 </li>
+      <li><a href="scDRP.html#scDRP.loss.HSICLoss._gaussian_kernel">_gaussian_kernel() (scDRP.loss.HSICLoss method)</a>
+
+      <ul>
+        <li><a href="scDRP.html#scDRP.loss.NOCCOLoss._gaussian_kernel">(scDRP.loss.NOCCOLoss method)</a>
+</li>
+        <li><a href="scDRP.html#scDRP.loss.UnnormalizedHSCICLoss._gaussian_kernel">(scDRP.loss.UnnormalizedHSCICLoss method)</a>
+</li>
+      </ul></li>
       <li><a href="scDRP.html#scDRP.module.Perturb._generate_from_latent">_generate_from_latent() (scDRP.module.Perturb method)</a>
 </li>
       <li><a href="scDRP.html#scDRP.module.Perturb._generate_latent">_generate_latent() (scDRP.module.Perturb method)</a>
 </li>
+      <li><a href="scDRP.html#scDRP.loss.HSICLoss._median_heuristic">_median_heuristic() (scDRP.loss.HSICLoss method)</a>
+
+      <ul>
+        <li><a href="scDRP.html#scDRP.loss.NOCCOLoss._median_heuristic">(scDRP.loss.NOCCOLoss method)</a>
+</li>
+        <li><a href="scDRP.html#scDRP.loss.UnnormalizedHSCICLoss._median_heuristic">(scDRP.loss.UnnormalizedHSCICLoss method)</a>
+</li>
+      </ul></li>
       <li><a href="scDRP.html#scDRP.module.Perturb._representative_latent">_representative_latent() (scDRP.module.Perturb method)</a>
 </li>
       <li><a href="scDRP.html#scDRP.module.Perturb._sample_from_parameter">_sample_from_parameter() (scDRP.module.Perturb method)</a>
 </li>
+      <li><a href="scDRP.html#scDRP.loss.HSICLoss._scotts_rule">_scotts_rule() (scDRP.loss.HSICLoss method)</a>
+
+      <ul>
+        <li><a href="scDRP.html#scDRP.loss.NOCCOLoss._scotts_rule">(scDRP.loss.NOCCOLoss method)</a>
+</li>
+        <li><a href="scDRP.html#scDRP.loss.UnnormalizedHSCICLoss._scotts_rule">(scDRP.loss.UnnormalizedHSCICLoss method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -154,16 +201,12 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="scDRP.html#scDRP.loss.center_kernel">center_kernel() (in module scDRP.loss)</a>
-</li>
       <li><a href="scDRP.html#scDRP.data.CombinedDataset">CombinedDataset (class in scDRP.data)</a>
 </li>
       <li><a href="scDRP.html#scDRP.utils.condition_quantile">condition_quantile() (in module scDRP.utils)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="scDRP.html#scDRP.loss.conditional_HISCloss">conditional_HISCloss() (in module scDRP.loss)</a>
-</li>
       <li><a href="scDRP.html#scDRP.utils.conditional_OT_latent">conditional_OT_latent() (in module scDRP.utils)</a>
 </li>
       <li><a href="scDRP.html#scDRP.module.Perturb.counterfactual_samples">counterfactual_samples() (scDRP.module.Perturb method)</a>
@@ -204,9 +247,15 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="scDRP.html#scDRP.loss.ZINBLoss.forward">forward() (scDRP.loss.ZINBLoss method)</a>
+      <li><a href="scDRP.html#scDRP.loss.HSICLoss.forward">forward() (scDRP.loss.HSICLoss method)</a>
 
       <ul>
+        <li><a href="scDRP.html#scDRP.loss.NOCCOLoss.forward">(scDRP.loss.NOCCOLoss method)</a>
+</li>
+        <li><a href="scDRP.html#scDRP.loss.UnnormalizedHSCICLoss.forward">(scDRP.loss.UnnormalizedHSCICLoss method)</a>
+</li>
+        <li><a href="scDRP.html#scDRP.loss.ZINBLoss.forward">(scDRP.loss.ZINBLoss method)</a>
+</li>
         <li><a href="scDRP.html#scDRP.model.Decoder.forward">(scDRP.model.Decoder method)</a>
 </li>
         <li><a href="scDRP.html#scDRP.model.Encoder.forward">(scDRP.model.Encoder method)</a>
@@ -248,7 +297,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="scDRP.html#scDRP.loss.HSICloss">HSICloss() (in module scDRP.loss)</a>
+      <li><a href="scDRP.html#scDRP.loss.HSICLoss">HSICLoss (class in scDRP.loss)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -336,6 +385,10 @@
       <li><a href="scDRP.html#scDRP.model.NBDecoder">NBDecoder (class in scDRP.model)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scDRP.html#scDRP.loss.NOCCOLoss">NOCCOLoss (class in scDRP.loss)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="P">P</h2>
@@ -355,8 +408,6 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="scDRP.html#scDRP.loss.rbf_kernel">rbf_kernel() (in module scDRP.loss)</a>
-</li>
       <li><a href="scDRP.html#scDRP.model.HardConcreteGate.regularization_loss">regularization_loss() (scDRP.model.HardConcreteGate method)</a>
 </li>
   </ul></td>
@@ -449,6 +500,14 @@
       <li><a href="scDRP.html#scDRP.module.Perturb.train">train() (scDRP.module.Perturb method)</a>
 </li>
       <li><a href="scDRP.html#scDRP.train.train_model">train_model() (in module scDRP.train)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="scDRP.html#scDRP.loss.UnnormalizedHSCICLoss">UnnormalizedHSCICLoss (class in scDRP.loss)</a>
 </li>
   </ul></td>
 </tr></table>

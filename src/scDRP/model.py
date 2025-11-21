@@ -2,7 +2,7 @@ import torch
 import numpy as np
 import torch.nn as nn
 import matplotlib.pyplot as plt
-from .loss import ZINBLoss,HSICloss,klLoss_prior,conditional_HISCloss
+from .loss import *
 from torch.nn import functional as F
 from functorch import make_functional_with_buffers
 import scipy as sp
@@ -10,18 +10,15 @@ import scipy as sp
 
 class HardConcreteGate(nn.Module):
     """
-    Hard Concrete Gate
+    Hard Concrete Gate for L0 regularization
+
+    Args:
+        size: int, size of the gate
+        beta: float, temperature parameter. Default is 2/3
+        gamma: float, left stretch parameter. Default is -0.1
+        zeta: float, right stretch parameter. Default is 1.1
     """
     def __init__(self, size, beta=2/3, gamma=-0.1, zeta=1.1):
-        """
-        Hard Concrete Gate
-
-        Args:
-            size: int, size of the gate
-            beta: float, temperature parameter
-            gamma: float, left stretch parameter
-            zeta: float, right stretch parameter
-        """
         super().__init__()
         self.log_alpha = nn.Parameter(torch.zeros(size))  # learnable logit
         self.beta = beta # temperature
@@ -30,13 +27,13 @@ class HardConcreteGate(nn.Module):
 
     def sample_gate(self, training=True):
         '''
-        Sample gate values
+        Sample gate values using Hard Concrete distribution
 
         Args:
-            training: bool, whether the model is in training mode
+            training: bool, whether in training mode
 
         Returns:
-            gate: a tensor representing the sampled gate values
+            gate: torch.Tensor, sampled gate values
         '''
         if training:
             u = torch.rand_like(self.log_alpha)
@@ -56,6 +53,7 @@ class HardConcreteGate(nn.Module):
         Returns:
             prob_nonzero: a tensor representing the expected L0 penalty (prob of being nonzero)
         '''
+        # expected L0 penalty (prob of being nonzero)
         prob_nonzero = torch.sigmoid(self.log_alpha - self.beta * np.log(-self.gamma / self.zeta))
         return prob_nonzero.sum()
 
@@ -141,7 +139,7 @@ class Encoder(nn.Module):
 
 class Decoder(nn.Module):
     """
-    ZINB Decoder network
+    Decoder network
     """
     def __init__(self, device, input_dim = 3000, covariate_dim = 1, layer_dims = [500,100], latent_dim = 20,
                  dropout_rate = 0.2, library_size_strategy="observed"):
@@ -152,11 +150,9 @@ class Decoder(nn.Module):
             layer_dims: list of int, hidden layer dimensions
             latent_dim: int, latent dimension
             dropout_rate: float, dropout rate in MLP
-            library_size_strategy: str, strategy to sample library size (default: "observed") Options:
-                - "observed": use the observed library size
-                - "pseudo": use a pseudo library size
         """
         super(Decoder, self).__init__()
+        
         self.input_dim = input_dim
         self.latent_dim = latent_dim
         self.covariate_dim = covariate_dim
@@ -223,7 +219,7 @@ class Decoder(nn.Module):
 
 class NBDecoder(nn.Module):
     """
-    NB Decoder network
+    Decoder network
     """
     def __init__(self, device, input_dim = 3000, covariate_dim = 1, layer_dims = [500,100], latent_dim = 20,
                  dropout_rate = 0.2, library_size_strategy="observed"):
@@ -234,12 +230,9 @@ class NBDecoder(nn.Module):
             layer_dims: list of int, hidden layer dimensions
             latent_dim: int, latent dimension
             dropout_rate: float, dropout rate in MLP
-            library_size_strategy: str, strategy to sample library size (default: "observed") Options:
-                - "observed": use the observed library size
-                - "pseudo": use a pseudo library size
         """
         super(NBDecoder, self).__init__()
-
+        
         self.input_dim = input_dim
         self.latent_dim = latent_dim
         self.covariate_dim = covariate_dim
@@ -307,7 +300,7 @@ class NBDecoder(nn.Module):
 
 class MSEDecoder(nn.Module):
     """
-    MSE Decoder network
+    Decoder network
     """
     def __init__(self, device, input_dim = 3000, covariate_dim = 1, layer_dims = [500,100], latent_dim = 20,
                  dropout_rate = 0.2, distribution = "Normal"):
@@ -318,12 +311,9 @@ class MSEDecoder(nn.Module):
             layer_dims: list of int, hidden layer dimensions
             latent_dim: int, latent dimension
             dropout_rate: float, dropout rate in MLP
-            distribution: str, output distribution to model the data (default: "Normal") Options:
-                - "Normal" (Gaussian)
-                - "Normal_possitive" (positive Gaussian)
         """
         super(MSEDecoder, self).__init__()
-
+        
         self.input_dim = input_dim
         self.latent_dim = latent_dim
         self.covariate_dim = covariate_dim
@@ -389,10 +379,10 @@ class PerturbNet(nn.Module):
     """
     scPerturb model
     """
-    def __init__(self, device, input_dim, covariate_dim = 1, celltype_num = 1, perturbation_num = 2, 
+    def __init__(self, device, input_dim, covariate_dim = 0, celltype_num = 0, perturbation_num = 2, 
                  layer_dims=[500,100], 
-                 latent_dep_dim=20, latent_ind_dim = 10, dropout_rate = 0.2, lambda_sparse = 0, l0_latent = 0,
-                 beta = 1, lambda_hsic = 1, distribution = "ZINB",
+                 latent_dep_dim = 50, latent_ind_dim = 50, dropout_rate = 0.2, lambda_sparse = 0, l0_latent = 0.001,
+                 beta = 1, lambda_hsic = 0.2, distribution = "ZINB", #count_data=False, positive_output=True,
                  encoder_covariates = False, library_size_strategy="observed",eps=1e-10):
         """
         Args:
@@ -404,24 +394,13 @@ class PerturbNet(nn.Module):
             latent_dep_dim: int, latent dimension for dependent variable (default: 20)
             latent_ind_dim: int, latent dimension for independent variable (default: 10)
             dropout_rate: float, dropout rate in MLP (default: 0.2)
-            lambda_sparse: float, sparsity penalty on the Jacobian matrix (default: 0)
-            l0_latent: float, L0 regularization weight on latent dimensions (default: 0)
-            distribution: str, output distribution to model the data. options (default: "ZINB"): 
-                - "ZINB" (zero-inflated negative binomial)
-                - "NB" (negative binomial)
-                - "Normal" (Gaussian)
-                - "Normal_positive" (positive Gaussian)
-            lambda_hsic: float, weight for HSIC independence loss (default: 1)
-            library_size_strategy: str, strategy to sample library size Options (default: "observed"):
-                - "batch_sample": sample from batch empirical distribution
-                - "observed": use the observed library size
-                - "original": use original library size of 1
-            beta: float, KL divergence weight (default: 1)
+            lambda_sparse: float, sparsity penalty (default: 0)
+            beta: float, KL divergence weight (default: 10)
             encoder_covariates: boolean, whether to include covariates in encoders (default: False)
             eps: float, small value to prevent numerical instability (default: 1e-10)
         """
         super(PerturbNet, self).__init__()
-
+        
         self.device = device
         self.eps = eps
         self.input_dim = input_dim
@@ -482,7 +461,7 @@ class PerturbNet(nn.Module):
             a: torch.Tensor, perturbation data (batch_size, perturbation_num)
             t: torch.Tensor, cell type data (batch_size, celltype_num)
             c: torch.Tensor, covariate data (batch_size, covariate_dim)
-            train: boolean, whether in training mode (default: True)
+            train:
         
         Returns:
             z_d: torch.Tensor, latent representation that depends on perturbation, (batch_size, latent_dep_dim)
@@ -580,7 +559,11 @@ class PerturbNet(nn.Module):
             kl_loss = klLoss_prior(mu_d, logvar_d, mu_prior_zd, logvar_prior_zd) + klLoss_prior(mu_u, logvar_u, mu_prior_zu, logvar_prior_zu)
             
             # independence loss by HSIC
-            ind_loss = conditional_HISCloss(z_d,z_u,t) # zd indep zu given t
+            # ind_loss = conditional_HISCloss(z_d,z_u,t) # zd indep zu given t
+            if self.celltype_num == 0:
+                ind_loss = HSICLoss()(z_d,z_u)
+            else:
+                ind_loss = UnnormalizedHSCICLoss()(z_d,z_u,t)
 
             # sparsity on dim(z)
             # latent_l1 = torch.sum(torch.abs(torch.concat([mu_d,mu_u],dim=-1))) #torch.sum(torch.abs(z_d)) + torch.sum(torch.abs(z_u)) # 
@@ -618,7 +601,7 @@ class PerturbNet(nn.Module):
             # lambda_hsic = 5 #0.01 * (recon_loss.detach().mean() + kl_loss.detach().mean()) / ind_loss.detach().mean()
             loss = recon_loss + self.beta * kl_loss  + self.lambda_sparse * jacobian_penalty + self.l0_latent * latent_l1  + self.lambda_hsic * ind_loss
             loss_dict = {'total_loss':loss.item(), 'recon_loss':recon_loss.item(), 'kl_loss':kl_loss.item(),
-                        'ind_loss':self.lambda_hsic * ind_loss.item(),
+                        'ind_loss': ind_loss.item(),
                         'l1_norm': jacobian_penalty.item(), 'l0_latent': latent_l1.item()}
             if self.distribution in ["ZINB","NB"]:
                 return z_d, z_u, mu_d, mu_u, logvar_d, logvar_u, rho, dispersion, pi, s, loss, loss_dict
@@ -636,10 +619,7 @@ class PerturbNet(nn.Module):
         
         Args:
             x: torch.Tensor, observed data
-            strategy: str, strategy to sample sequencing depth. Options (default: "observed"):
-                - "batch_sample": sample from batch empirical distribution
-                - "observed": use the observed library size
-                - "original": use original library size of 1
+            strategy: str, strategy to sample sequencing depth. We have two options: batch_sample and observed, but will use observed only currently
         
         Returns:
             s: torch.Tensor, library size

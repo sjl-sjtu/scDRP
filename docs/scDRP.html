@@ -53,13 +53,12 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-scDRP.loss">scDRP.loss module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.HSICloss"><code class="docutils literal notranslate"><span class="pre">HSICloss()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.HSICLoss"><code class="docutils literal notranslate"><span class="pre">HSICLoss</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.NOCCOLoss"><code class="docutils literal notranslate"><span class="pre">NOCCOLoss</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.UnnormalizedHSCICLoss"><code class="docutils literal notranslate"><span class="pre">UnnormalizedHSCICLoss</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.ZINBLoss"><code class="docutils literal notranslate"><span class="pre">ZINBLoss</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.center_kernel"><code class="docutils literal notranslate"><span class="pre">center_kernel()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.conditional_HISCloss"><code class="docutils literal notranslate"><span class="pre">conditional_HISCloss()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.klLoss"><code class="docutils literal notranslate"><span class="pre">klLoss()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.klLoss_prior"><code class="docutils literal notranslate"><span class="pre">klLoss_prior()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#scDRP.loss.rbf_kernel"><code class="docutils literal notranslate"><span class="pre">rbf_kernel()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#module-scDRP.model">scDRP.model module</a><ul>
@@ -194,25 +193,324 @@
 </section>
 <section id="module-scDRP.loss">
 <span id="scdrp-loss-module"></span><h2>scDRP.loss module<a class="headerlink" href="#module-scDRP.loss" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="scDRP.loss.HSICloss">
-<span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">HSICloss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.HSICloss" title="Link to this definition"></a></dt>
-<dd><p>Compute Hilbert-Schmidt Independence Criterion (HSIC) between two sets of samples</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.loss.HSICLoss">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">HSICLoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'median'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'scott'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'median'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.HSICLoss" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Hilbert-Schmidt Independence Criterion (HSIC) for Independence Testing.</p>
+<p>Measures the dependence between X and Y. HSIC is zero if and only if X and Y
+are independent (assuming characteristic kernels like Gaussian RBF).</p>
+<p>Based on: Gretton et al. “Measuring Statistical Dependence with Hilbert-Schmidt Norms” (2005)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> – input samples 1 (batch_size, dim)</p></li>
-<li><p><strong>Y</strong> – input samples 2 (batch_size, dim)</p></li>
-<li><p><strong>sigma</strong> – RBF kernel width</p></li>
+<li><p><strong>sigma_x</strong> (<em>float</em><em>, </em><em>optional</em>) – Fixed bandwidth for X. If None, uses automatic selection.</p></li>
+<li><p><strong>sigma_y</strong> (<em>float</em><em>, </em><em>optional</em>) – Fixed bandwidth for Y. If None, uses automatic selection.</p></li>
+<li><p><strong>sigma_method</strong> (<em>str</em>) – Method for automatic sigma selection when sigma_x/sigma_y is None.
+- ‘median’: Median heuristic (default, recommended)
+- ‘scott’: Scott’s rule</p></li>
+<li><p><strong>sigma_scale</strong> (<em>float</em>) – Additional scaling factor for computed sigma. Default: 1.0</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Automatic sigma selection (recommended)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">HSICLoss</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Manual sigma specification</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">HSICLoss</span><span class="p">(</span><span class="n">sigma_x</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma_y</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.HSICLoss.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sigma_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'median'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'scott'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'median'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.HSICLoss.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the HSIC loss.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sigma_x</strong> – Fixed bandwidth for X. If None, auto-computed per forward pass.</p></li>
+<li><p><strong>sigma_y</strong> – Fixed bandwidth for Y. If None, auto-computed per forward pass.</p></li>
+<li><p><strong>sigma_method</strong> – Method for automatic bandwidth selection.</p></li>
+<li><p><strong>sigma_scale</strong> – Global scaling factor applied to all computed sigmas.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.HSICLoss._compute_sigma">
+<span class="sig-name descname"><span class="pre">_compute_sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scDRP.loss.HSICLoss._compute_sigma" title="Link to this definition"></a></dt>
+<dd><p>Computes or returns sigma for a given tensor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – Input tensor.</p></li>
+<li><p><strong>fixed_sigma</strong> – Pre-specified sigma value. If None, auto-compute.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Hilbert-Schmidt Independence Criterion (smaller HSIC means more independent)</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>HSIC</p>
+<dd class="field-even"><p>Sigma value to use.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.HSICLoss._gaussian_kernel">
+<span class="sig-name descname"><span class="pre">_gaussian_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#scDRP.loss.HSICLoss._gaussian_kernel" title="Link to this definition"></a></dt>
+<dd><p>Computes Gaussian RBF kernel matrix.</p>
+<p>K(x, y) = exp(-||x - y||^2 / (2sigma^2))</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – Tensor of shape [batch_size, dim_x].</p></li>
+<li><p><strong>y</strong> – Tensor of shape [batch_size, dim_y].</p></li>
+<li><p><strong>sigma</strong> – Bandwidth parameter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Kernel matrix of shape [batch_size, batch_size].</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.HSICLoss._median_heuristic">
+<span class="sig-name descname"><span class="pre">_median_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scDRP.loss.HSICLoss._median_heuristic" title="Link to this definition"></a></dt>
+<dd><p>Computes sigma using median heuristic.</p>
+<p>sigma^2 = median(||x_i - x_j||^2) * sigma_scale</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – Tensor of shape [batch_size, dim].</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optimal sigma value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.HSICLoss._scotts_rule">
+<span class="sig-name descname"><span class="pre">_scotts_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scDRP.loss.HSICLoss._scotts_rule" title="Link to this definition"></a></dt>
+<dd><p>Computes sigma using Scott’s rule.</p>
+<p>sigma = n^(-1/(d+4)) * std(X) * sigma_scale</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – Tensor of shape [batch_size, dim].</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Optimal sigma value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.HSICLoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#scDRP.loss.HSICLoss.forward" title="Link to this definition"></a></dt>
+<dd><p>Computes HSIC between X and Y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – Input tensor of shape [batch_size, dim_x].</p></li>
+<li><p><strong>Y</strong> – Input tensor of shape [batch_size, dim_y].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>HSIC value (scalar). Zero indicates independence.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – If batch sizes don’t match.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.loss.NOCCOLoss">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">NOCCOLoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'median'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'scott'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'median'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.NOCCOLoss" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Normalized Cross-Covariance Operator (NOCCO) Loss for Conditional Independence.</p>
+<p>Measures the conditional dependence between X and Y given Z using the Hilbert-Schmidt
+norm of the normalized conditional cross-covariance operator.</p>
+<p>Based on: “Kernel Measures of Conditional Dependence” (Fukumizu et al., NIPS 2007)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>epsilon</strong> (<em>float</em>) – Regularization parameter for matrix inversion stability. Default: 1e-4</p></li>
+<li><p><strong>sigma_x</strong> (<em>float</em><em>, </em><em>optional</em>) – Fixed bandwidth for X. If None, uses automatic selection.</p></li>
+<li><p><strong>sigma_y</strong> (<em>float</em><em>, </em><em>optional</em>) – Fixed bandwidth for Y. If None, uses automatic selection.</p></li>
+<li><p><strong>sigma_z</strong> (<em>float</em><em>, </em><em>optional</em>) – Fixed bandwidth for Z. If None, uses automatic selection.</p></li>
+<li><p><strong>sigma_method</strong> (<em>str</em>) – Method for automatic sigma selection. Options:
+- ‘median’: Median heuristic (default, recommended)
+- ‘scott’: Scott’s rule</p></li>
+<li><p><strong>sigma_scale</strong> (<em>float</em>) – Additional scaling factor for computed sigma. Default: 1.0</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Automatic sigma selection (recommended)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">NOCCOLoss</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Manual sigma specification</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">NOCCOLoss</span><span class="p">(</span><span class="n">sigma_x</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma_y</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma_z</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.NOCCOLoss.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'median'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'scott'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'median'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.NOCCOLoss.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the NOCCO loss.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.NOCCOLoss._center_gram">
+<span class="sig-name descname"><span class="pre">_center_gram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#scDRP.loss.NOCCOLoss._center_gram" title="Link to this definition"></a></dt>
+<dd><p>Centers the Gram matrix in feature space.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.NOCCOLoss._compute_normalized_cov">
+<span class="sig-name descname"><span class="pre">_compute_normalized_cov</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">G_Y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">G_X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#scDRP.loss.NOCCOLoss._compute_normalized_cov" title="Link to this definition"></a></dt>
+<dd><p>Computes normalized cross-covariance operator V_Y_X.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.NOCCOLoss._compute_sigma">
+<span class="sig-name descname"><span class="pre">_compute_sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scDRP.loss.NOCCOLoss._compute_sigma" title="Link to this definition"></a></dt>
+<dd><p>Computes or returns sigma for a given tensor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.NOCCOLoss._gaussian_kernel">
+<span class="sig-name descname"><span class="pre">_gaussian_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#scDRP.loss.NOCCOLoss._gaussian_kernel" title="Link to this definition"></a></dt>
+<dd><p>Computes Gaussian RBF kernel matrix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.NOCCOLoss._median_heuristic">
+<span class="sig-name descname"><span class="pre">_median_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scDRP.loss.NOCCOLoss._median_heuristic" title="Link to this definition"></a></dt>
+<dd><p>Computes sigma using median heuristic.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.NOCCOLoss._scotts_rule">
+<span class="sig-name descname"><span class="pre">_scotts_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scDRP.loss.NOCCOLoss._scotts_rule" title="Link to this definition"></a></dt>
+<dd><p>Computes sigma using Scott’s rule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.NOCCOLoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#scDRP.loss.NOCCOLoss.forward" title="Link to this definition"></a></dt>
+<dd><p>Computes the NOCCO loss for conditional independence testing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – Input tensor of shape [batch_size, dim_x].</p></li>
+<li><p><strong>Y</strong> – Input tensor of shape [batch_size, dim_y].</p></li>
+<li><p><strong>Z</strong> – Conditioning tensor of shape [batch_size, dim_z].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Scalar loss value (non-negative). Zero indicates conditional independence.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="scDRP.loss.UnnormalizedHSCICLoss">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">UnnormalizedHSCICLoss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'median'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'scott'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'median'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.UnnormalizedHSCICLoss" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
+<p>Unnormalized Hilbert-Schmidt Conditional Independence Criterion (HSCIC).</p>
+<p>Computes the unnormalized squared Hilbert-Schmidt norm of the conditional
+cross-covariance operator: ||sigma_Yẍ|Z||^2_HS.</p>
+<p>Based on: Fukumizu et al. (2004) and Sheng &amp; Sriperumbudur (2023)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>epsilon</strong> (<em>float</em>) – Regularization parameter for matrix inversion. Default: 1e-4</p></li>
+<li><p><strong>sigma_x</strong> (<em>float</em><em>, </em><em>optional</em>) – Fixed bandwidth for X. If None, uses automatic selection.</p></li>
+<li><p><strong>sigma_y</strong> (<em>float</em><em>, </em><em>optional</em>) – Fixed bandwidth for Y. If None, uses automatic selection.</p></li>
+<li><p><strong>sigma_z</strong> (<em>float</em><em>, </em><em>optional</em>) – Fixed bandwidth for Z. If None, uses automatic selection.</p></li>
+<li><p><strong>sigma_method</strong> (<em>str</em>) – Method for automatic sigma selection. Options:
+- ‘median’: Median heuristic (default, recommended)
+- ‘scott’: Scott’s rule</p></li>
+<li><p><strong>sigma_scale</strong> (<em>float</em>) – Additional scaling factor for computed sigma. Default: 1.0</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Automatic sigma selection (recommended)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">UnnormalizedHSCICLoss</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Manual sigma specification</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">UnnormalizedHSCICLoss</span><span class="p">(</span><span class="n">sigma_x</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma_y</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sigma_z</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.UnnormalizedHSCICLoss.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'median'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'scott'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'median'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.UnnormalizedHSCICLoss.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the Unnormalized HSCIC loss.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.UnnormalizedHSCICLoss._center_gram">
+<span class="sig-name descname"><span class="pre">_center_gram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#scDRP.loss.UnnormalizedHSCICLoss._center_gram" title="Link to this definition"></a></dt>
+<dd><p>Centers the Gram matrix in the RKHS feature space.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.UnnormalizedHSCICLoss._compute_sigma">
+<span class="sig-name descname"><span class="pre">_compute_sigma</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scDRP.loss.UnnormalizedHSCICLoss._compute_sigma" title="Link to this definition"></a></dt>
+<dd><p>Computes or returns sigma for a given tensor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.UnnormalizedHSCICLoss._gaussian_kernel">
+<span class="sig-name descname"><span class="pre">_gaussian_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#scDRP.loss.UnnormalizedHSCICLoss._gaussian_kernel" title="Link to this definition"></a></dt>
+<dd><p>Computes Gaussian RBF kernel matrix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.UnnormalizedHSCICLoss._median_heuristic">
+<span class="sig-name descname"><span class="pre">_median_heuristic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scDRP.loss.UnnormalizedHSCICLoss._median_heuristic" title="Link to this definition"></a></dt>
+<dd><p>Computes sigma using median heuristic.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.UnnormalizedHSCICLoss._scotts_rule">
+<span class="sig-name descname"><span class="pre">_scotts_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scDRP.loss.UnnormalizedHSCICLoss._scotts_rule" title="Link to this definition"></a></dt>
+<dd><p>Computes sigma using Scott’s rule.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.loss.UnnormalizedHSCICLoss.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="headerlink" href="#scDRP.loss.UnnormalizedHSCICLoss.forward" title="Link to this definition"></a></dt>
+<dd><p>Computes the unnormalized HSCIC loss value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – Input tensor X of shape [batch_size, dim_x].</p></li>
+<li><p><strong>y</strong> – Input tensor Y of shape [batch_size, dim_y].</p></li>
+<li><p><strong>z</strong> – Conditioning tensor Z of shape [batch_size, dim_z].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Scalar loss value (non-negative). Zero indicates X ⊥⊥ Y | Z.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -249,48 +547,6 @@
 </dl>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scDRP.loss.center_kernel">
-<span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">center_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">K</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Kz</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.center_kernel" title="Link to this definition"></a></dt>
-<dd><p>Centers the kernel matrix K with respect to the conditioning variable Z.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>K</strong> (<em>numpy.ndarray</em>) – Kernel matrix of shape (n, n).</p></li>
-<li><p><strong>Kz</strong> (<em>numpy.ndarray</em>) – Kernel matrix for Z of shape (n, n).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Centered kernel matrix of shape (n, n).</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>numpy.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scDRP.loss.conditional_HISCloss">
-<span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">conditional_HISCloss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.conditional_HISCloss" title="Link to this definition"></a></dt>
-<dd><p>Computes the Conditional Hilbert-Schmidt Independence Criterion (CHSIC).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>numpy.ndarray</em>) – Sample matrix for variable X, shape (n, d_x).</p></li>
-<li><p><strong>Y</strong> (<em>numpy.ndarray</em>) – Sample matrix for variable Y, shape (n, d_y).</p></li>
-<li><p><strong>Z</strong> (<em>numpy.ndarray</em>) – Sample matrix for conditioning variable Z, shape (n, d_z).</p></li>
-<li><p><strong>sigma</strong> (<em>float</em><em>, </em><em>optional</em>) – Bandwidth parameter for the RBF kernel. Defaults to 1.0.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The conditional HSIC value, representing the dependency between X and Y given Z.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -337,27 +593,6 @@
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="scDRP.loss.rbf_kernel">
-<span class="sig-prename descclassname"><span class="pre">scDRP.loss.</span></span><span class="sig-name descname"><span class="pre">rbf_kernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.loss.rbf_kernel" title="Link to this definition"></a></dt>
-<dd><p>Compute the RBF (Gaussian) kernel matrix</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> – input samples 2 (batch_size, dim)</p></li>
-<li><p><strong>Y</strong> – input samples 2 (batch_size, dim)</p></li>
-<li><p><strong>sigma</strong> – RBF kernel width</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>RBF kernel matrix</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>K</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 <section id="module-scDRP.model">
 <span id="scdrp-model-module"></span><h2>scDRP.model module<a class="headerlink" href="#module-scDRP.model" title="Link to this heading"></a></h2>
@@ -365,7 +600,7 @@
 <dt class="sig sig-object py" id="scDRP.model.Decoder">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.model.</span></span><span class="sig-name descname"><span class="pre">Decoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.Decoder" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
-<p>ZINB Decoder network</p>
+<p>Decoder network</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="scDRP.model.Decoder.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.Decoder.__init__" title="Link to this definition"></a></dt>
@@ -377,9 +612,6 @@
 <li><p><strong>layer_dims</strong> – list of int, hidden layer dimensions</p></li>
 <li><p><strong>latent_dim</strong> – int, latent dimension</p></li>
 <li><p><strong>dropout_rate</strong> – float, dropout rate in MLP</p></li>
-<li><p><strong>library_size_strategy</strong> – str, strategy to sample library size (default: “observed”) Options:
-- “observed”: use the observed library size
-- “pseudo”: use a pseudo library size</p></li>
 </ul>
 </dd>
 </dl>
@@ -473,21 +705,21 @@ logvar: torch.Tensor, log variance of the latent variable</p>
 <dt class="sig sig-object py" id="scDRP.model.HardConcreteGate">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.model.</span></span><span class="sig-name descname"><span class="pre">HardConcreteGate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6666666666666666</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.HardConcreteGate" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
-<p>Hard Concrete Gate</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="scDRP.model.HardConcreteGate.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6666666666666666</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.HardConcreteGate.__init__" title="Link to this definition"></a></dt>
-<dd><p>Hard Concrete Gate</p>
+<p>Hard Concrete Gate for L0 regularization</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>size</strong> – int, size of the gate</p></li>
-<li><p><strong>beta</strong> – float, temperature parameter</p></li>
-<li><p><strong>gamma</strong> – float, left stretch parameter</p></li>
-<li><p><strong>zeta</strong> – float, right stretch parameter</p></li>
+<li><p><strong>beta</strong> – float, temperature parameter. Default is 2/3</p></li>
+<li><p><strong>gamma</strong> – float, left stretch parameter. Default is -0.1</p></li>
+<li><p><strong>zeta</strong> – float, right stretch parameter. Default is 1.1</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="scDRP.model.HardConcreteGate.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6666666666666666</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zeta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.HardConcreteGate.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize internal Module state, shared by both nn.Module and ScriptModule.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -528,13 +760,13 @@ gate: sampled gate values</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="scDRP.model.HardConcreteGate.sample_gate">
 <span class="sig-name descname"><span class="pre">sample_gate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.HardConcreteGate.sample_gate" title="Link to this definition"></a></dt>
-<dd><p>Sample gate values</p>
+<dd><p>Sample gate values using Hard Concrete distribution</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>training</strong> – bool, whether the model is in training mode</p>
+<dd class="field-odd"><p><strong>training</strong> – bool, whether in training mode</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>a tensor representing the sampled gate values</p>
+<dd class="field-even"><p>torch.Tensor, sampled gate values</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>gate</p>
@@ -548,7 +780,7 @@ gate: sampled gate values</p>
 <dt class="sig sig-object py" id="scDRP.model.MSEDecoder">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.model.</span></span><span class="sig-name descname"><span class="pre">MSEDecoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Normal'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.MSEDecoder" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
-<p>MSE Decoder network</p>
+<p>Decoder network</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="scDRP.model.MSEDecoder.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Normal'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.MSEDecoder.__init__" title="Link to this definition"></a></dt>
@@ -560,9 +792,6 @@ gate: sampled gate values</p>
 <li><p><strong>layer_dims</strong> – list of int, hidden layer dimensions</p></li>
 <li><p><strong>latent_dim</strong> – int, latent dimension</p></li>
 <li><p><strong>dropout_rate</strong> – float, dropout rate in MLP</p></li>
-<li><p><strong>distribution</strong> – str, output distribution to model the data (default: “Normal”) Options:
-- “Normal” (Gaussian)
-- “Normal_possitive” (positive Gaussian)</p></li>
 </ul>
 </dd>
 </dl>
@@ -596,7 +825,7 @@ pi: torch.Tensor, zero-inflation parameter</p>
 <dt class="sig sig-object py" id="scDRP.model.NBDecoder">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.model.</span></span><span class="sig-name descname"><span class="pre">NBDecoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.NBDecoder" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
-<p>NB Decoder network</p>
+<p>Decoder network</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="scDRP.model.NBDecoder.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.NBDecoder.__init__" title="Link to this definition"></a></dt>
@@ -608,9 +837,6 @@ pi: torch.Tensor, zero-inflation parameter</p>
 <li><p><strong>layer_dims</strong> – list of int, hidden layer dimensions</p></li>
 <li><p><strong>latent_dim</strong> – int, latent dimension</p></li>
 <li><p><strong>dropout_rate</strong> – float, dropout rate in MLP</p></li>
-<li><p><strong>library_size_strategy</strong> – str, strategy to sample library size (default: “observed”) Options:
-- “observed”: use the observed library size
-- “pseudo”: use a pseudo library size</p></li>
 </ul>
 </dd>
 </dl>
@@ -642,12 +868,12 @@ pi: torch.Tensor, zero-inflation parameter</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="scDRP.model.PerturbNet">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.model.</span></span><span class="sig-name descname"><span class="pre">PerturbNet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltype_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perturbation_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dep_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_ind_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l0_latent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_hsic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ZINB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder_covariates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.PerturbNet" title="Link to this definition"></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">scDRP.model.</span></span><span class="sig-name descname"><span class="pre">PerturbNet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltype_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perturbation_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dep_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_ind_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l0_latent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_hsic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ZINB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder_covariates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.PerturbNet" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
 <p>scPerturb model</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="scDRP.model.PerturbNet.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltype_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perturbation_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dep_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_ind_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l0_latent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_hsic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ZINB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder_covariates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.PerturbNet.__init__" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">covariate_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">celltype_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perturbation_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layer_dims</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[500,</span> <span class="pre">100]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dep_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_ind_dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dropout_rate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_sparse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l0_latent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_hsic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distribution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ZINB'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoder_covariates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.model.PerturbNet.__init__" title="Link to this definition"></a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -659,19 +885,8 @@ pi: torch.Tensor, zero-inflation parameter</p>
 <li><p><strong>latent_dep_dim</strong> – int, latent dimension for dependent variable (default: 20)</p></li>
 <li><p><strong>latent_ind_dim</strong> – int, latent dimension for independent variable (default: 10)</p></li>
 <li><p><strong>dropout_rate</strong> – float, dropout rate in MLP (default: 0.2)</p></li>
-<li><p><strong>lambda_sparse</strong> – float, sparsity penalty on the Jacobian matrix (default: 0)</p></li>
-<li><p><strong>l0_latent</strong> – float, L0 regularization weight on latent dimensions (default: 0)</p></li>
-<li><p><strong>distribution</strong> – str, output distribution to model the data. options (default: “ZINB”):
-- “ZINB” (zero-inflated negative binomial)
-- “NB” (negative binomial)
-- “Normal” (Gaussian)
-- “Normal_positive” (positive Gaussian)</p></li>
-<li><p><strong>lambda_hsic</strong> – float, weight for HSIC independence loss (default: 1)</p></li>
-<li><p><strong>library_size_strategy</strong> – str, strategy to sample library size Options (default: “observed”):
-- “batch_sample”: sample from batch empirical distribution
-- “observed”: use the observed library size
-- “original”: use original library size of 1</p></li>
-<li><p><strong>beta</strong> – float, KL divergence weight (default: 1)</p></li>
+<li><p><strong>lambda_sparse</strong> – float, sparsity penalty (default: 0)</p></li>
+<li><p><strong>beta</strong> – float, KL divergence weight (default: 10)</p></li>
 <li><p><strong>encoder_covariates</strong> – boolean, whether to include covariates in encoders (default: False)</p></li>
 <li><p><strong>eps</strong> – float, small value to prevent numerical instability (default: 1e-10)</p></li>
 </ul>
@@ -689,7 +904,7 @@ pi: torch.Tensor, zero-inflation parameter</p>
 <li><p><strong>a</strong> – torch.Tensor, perturbation data (batch_size, perturbation_num)</p></li>
 <li><p><strong>t</strong> – torch.Tensor, cell type data (batch_size, celltype_num)</p></li>
 <li><p><strong>c</strong> – torch.Tensor, covariate data (batch_size, covariate_dim)</p></li>
-<li><p><strong>train</strong> – boolean, whether in training mode (default: True)</p></li>
+<li><p><strong>train</strong></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -738,10 +953,7 @@ loss_dict: dict, dictionary of losses</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> – torch.Tensor, observed data</p></li>
-<li><p><strong>strategy</strong> – str, strategy to sample sequencing depth. Options (default: “observed”):
-- “batch_sample”: sample from batch empirical distribution
-- “observed”: use the observed library size
-- “original”: use original library size of 1</p></li>
+<li><p><strong>strategy</strong> – str, strategy to sample sequencing depth. We have two options: batch_sample and observed, but will use observed only currently</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1294,7 +1506,7 @@ counterfactual_zu: a numpy array representing the counterfactual independent lat
 
 <dl class="py method">
 <dt class="sig sig-object py" id="scDRP.module.Perturb.setup">
-<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hidden_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[128,</span> <span class="pre">128]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dependent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_independent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_coef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l0_latent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_hsic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.setup" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hidden_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[128,</span> <span class="pre">128]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_dependent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latent_independent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparse_coef</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l0_latent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lambda_hsic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">library_size_strategy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'observed'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scDRP.module.Perturb.setup" title="Link to this definition"></a></dt>
 <dd><p>Setup the model for training.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

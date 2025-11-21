@@ -156,8 +156,8 @@ class Perturb:
         # self.count_data = count_data
         # self.positive_output = positive_output
     
-    def setup(self, hidden_layers = [128,128], latent_dependent = 20, latent_independent = 20, 
-              beta = 5, sparse_coef = 0, l0_latent = 0, lambda_hsic = 5,
+    def setup(self, hidden_layers = [128,128], latent_dependent = 50, latent_independent = 50, 
+              beta = 1, sparse_coef = 0, l0_latent = 0.001, lambda_hsic = 0.2,
               library_size_strategy="observed", device=None):
         '''
         Setup the model for training.
