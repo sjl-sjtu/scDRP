@@ -25,7 +25,7 @@ adata = sc.read_h5ad("example.h5ad")
 model = Perturb(adata, perturbation_key="perturbation", 
                 celltype_key="celltype",distribution="Normal_positive") 
 model.setup(latent_dependent = 50, latent_independent = 50, hidden_layers = [512, 512], 
-            beta = 2, sparse_coef = 0, l0_latent=0.01, lambda_hsic=1)
+            beta = 2, sparse_coef = 0, l0_latent=0.001, lambda_hsic=0.2)
 model.train(epoch_num = 200, batch_size = 64, lr = 1e-3, tensorboard=False, accumulation_steps=1,
             valid_prop=0.1, early_stopping=True, adaptlr=False)
 model.inference(n_samples=10, batch_size = 64, update=False, returns=False)
