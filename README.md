@@ -14,7 +14,7 @@ git clone https://github.com/sjl-sjtu/scDRP.git
 cd scMRDR
 pip install -e .
 ```
-Detailed usage of APIs can be found at [https://sjl-sjtu.github.io/scDRP/index.html].
+Detailed usage of APIs can be found at <https://sjl-sjtu.github.io/scDRP/index.html>.
 
 A simple example
 ```
