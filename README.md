@@ -38,10 +38,13 @@ model.inference(n_samples=10, batch_size = 64, update=False, returns=False)
 zd, zu, mu_d, mu_u = model.get_latent()
 
 # estimate effect
-ITE = model.effect_estimate(control='control',treatment='treatment', strategy="ot", alpha=0.1, beta=1, projection_strategy="full", method="emd")
+ITE = model.effect_estimate(control='control',treatment='treatment', strategy="ot",
+                            alpha=0.1, beta=1, projection_strategy="full", method="emd")
 
 # predict counterfactual samples
-samples_counterfactual = model.counterfactual_samples(control='control',treatment='treatment', strategy="ot", alpha=0.1, beta=1, projection_strategy="full", method="emd")
+samples_counterfactual = model.counterfactual_samples(control='control',treatment='treatment',
+                                                      strategy="ot", alpha=0.1, beta=1,
+                                                      projection_strategy="full", method="emd")
 ```
 
 ## Reference
