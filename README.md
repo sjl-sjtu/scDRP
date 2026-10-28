@@ -1,5 +1,7 @@
 **[Update]** A jupyter notebook with toy examples are uploaded (`toy_example_conditional_ot.ipynb`). You can reproduce the illurating examples in Supplementary Notes SN3 of the published paper [1]. The notebook is intended to demonstrate the basic ideas of conditional optimal transport on disentangled latent variables: quantile matching on perturbation-induced latent varaibles $z_d$ while conditioning on confounding factors $z_u$.
 
+===============================================
+
 This is a package to analyze single-cell perturbation data. 
 It learns the latent factors that generates the observed gene profiles via sparsity-regularized disentangled VAE, 
 which disentangles the latent space into perturbation-dependent and perturbation-invariant subspaces. 
