@@ -1,3 +1,5 @@
+**[Update]** A jupyter notebook with toy examples are uploaded (`toy_example_conditional_ot.ipynb`). You reproduce the illurating examples in Supplementary Notes SN3 of the published paper [1]. The notebook is intended to demonstrate the basic ideas of conditional optimal transport on disentangled latent variables: quantile matching on perturbation-induced latent varaibles $z_d$ while conditioning on confounding factors $z_u$.
+
 This is a package to analyze single-cell perturbation data. 
 It learns the latent factors that generates the observed gene profiles via sparsity-regularized disentangled VAE, 
 which disentangles the latent space into perturbation-dependent and perturbation-invariant subspaces. 
@@ -41,7 +43,7 @@ samples_counterfactual = model.counterfactual_samples(control='control',treatmen
 ```
 
 ## Reference
-Jianle Sun, Petar Stojanov, Kun Zhang, scDRP: disentangled representation learning for predicting single-cell responses to perturbations and estimating individual treatment effects, *Briefings in Bioinformatics*, Volume 27, Issue 5, September 2026, bbag482, https://doi.org/10.1093/bib/bbag482
+[1] Jianle Sun, Petar Stojanov, Kun Zhang, scDRP: disentangled representation learning for predicting single-cell responses to perturbations and estimating individual treatment effects, *Briefings in Bioinformatics*, Volume 27, Issue 5, September 2026, bbag482, https://doi.org/10.1093/bib/bbag482
 
 ## Contact
 Feel free to contact me via jianles@andrew.cmu.edu or sjl-2017@alumni.sjtu.edu.cn if you have any questions.
