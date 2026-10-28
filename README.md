@@ -41,7 +41,7 @@ samples_counterfactual = model.counterfactual_samples(control='control',treatmen
 ```
 
 ## Reference
-Jianle Sun, Petar Stojanov, Kun Zhang. Single-cell disentangled representations for perturbation modeling and treatment effect estimation. bioRxiv 2025.11.21.689783; doi: https://doi.org/10.1101/2025.11.21.689783
+Jianle Sun, Petar Stojanov, Kun Zhang, scDRP: disentangled representation learning for predicting single-cell responses to perturbations and estimating individual treatment effects, *Briefings in Bioinformatics*, Volume 27, Issue 5, September 2026, bbag482, https://doi.org/10.1093/bib/bbag482
 
 ## Contact
 Feel free to contact me via jianles@andrew.cmu.edu or sjl-2017@alumni.sjtu.edu.cn if you have any questions.
